@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/viewPage">
+
+    <fragment
+        android:id="@+id/viewPage"
+        android:name="com.sgs.manthara.fragment.ViewPage"
+        android:label="ViewPage"
+        tools:layout="@layout/fragment_view_page" />
+
+    <fragment
+        android:id="@+id/joinNew"
+        android:name="com.sgs.manthara.fragment.JoinNewSchemeFragment"
+        android:label="Join New Scheme"
+        tools:layout="@layout/fragment_join_new_scheme" />
+
+    <fragment
+        android:id="@+id/myScheme"
+        android:name="com.sgs.manthara.fragment.MySchemesFragment"
+        android:label="My Scheme"
+        tools:layout="@layout/fragment_my_schemes" />
+
+    <fragment
+        android:id="@+id/payDue"
+        android:name="com.sgs.manthara.fragment.PayDueFragment"
+        android:label="My Scheme"
+        tools:layout="@layout/fragment_my_schemes" />
+    <fragment
+        android:id="@+id/paidAmountFragment"
+        android:name="com.sgs.manthara.fragment.PaidAmountFragment"
+        android:label="PaidAmountFragment"
+        tools:layout="@layout/fragment_paid_amount" />
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="com.sgs.manthara.fragment.FirstFragment"
+        android:label="fragment_first"
+        tools:layout="@layout/fragment_first" />
+    <fragment
+        android:id="@+id/newArrivalsJewellFragment"
+        android:name="com.sgs.manthara.fragment.NewArrivalsJewellFragment"
+        android:label="fragment_new_arrivals_jewell"
+        tools:layout="@layout/fragment_new_arrivals_jewell" />
+    <fragment
+        android:id="@+id/textileFragment"
+        android:name="com.sgs.manthara.fragment.TextileFragment"
+        android:label="TextileFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.sgs.manthara.fragment.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/myWallFragment"
+        android:name="com.sgs.manthara.fragment.MyWallFragment"
+        android:label="MyWallFragment" />
+    <fragment
+        android:id="@+id/addPreBookFragment"
+        android:name="com.sgs.manthara.fragment.AddPreBookFragment"
+        android:label="fragment_add_pre_book"
+        tools:layout="@layout/fragment_add_pre_book" />
+    <fragment
+        android:id="@+id/totalWeightFragment"
+        android:name="com.sgs.manthara.fragment.TotalWeightFragment"
+        android:label="fragment_total_weight"
+        tools:layout="@layout/fragment_total_weight" />
+    <fragment
+        android:id="@+id/newDesginReqFragment"
+        android:name="com.sgs.manthara.fragment.NewDesignReqFragment"
+        android:label="NewDesginReqFragment2" />
+    <fragment
+        android:id="@+id/perBookFragment"
+        android:name="com.sgs.manthara.fragment.PerBookFragment"
+        android:label="PerBookFragment" />
+
+
+</navigation>

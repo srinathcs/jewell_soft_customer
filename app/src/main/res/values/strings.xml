@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Retrofit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="resend_otp_countdown">Resend OTP in %1$d seconds</string>
+    <string name="resend_otp">Resend OTP</string>
+</resources>
