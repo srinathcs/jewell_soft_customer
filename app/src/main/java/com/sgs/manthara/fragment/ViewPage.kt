@@ -107,6 +107,17 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
             findNavController().navigate(R.id.perBookFragment)
         }
 
+        binding.ivJewellOffer.setOnClickListener {
+            findNavController().navigate(R.id.jewellOfferFragment)
+        }
+
+        binding.ivWishList.setOnClickListener {
+            findNavController().navigate(R.id.wishListFragment)
+        }
+
+        binding.ivTextileOffer.setOnClickListener {
+            findNavController().navigate(R.id.textileOfferFragment)
+        }
 
     }
 

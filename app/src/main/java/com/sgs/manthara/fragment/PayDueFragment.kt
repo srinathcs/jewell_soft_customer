@@ -19,7 +19,6 @@ import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
 import kotlinx.coroutines.flow.first
-import kotlin.math.log
 
 class PayDueFragment : Fragment() {
     private lateinit var binding: FragmentPayDueBinding
@@ -83,10 +82,25 @@ class PayDueFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "pendingResponse:${it.data} ")
-                        myadapter = PayDueAdapter(requireContext())
-                        binding.rvView.adapter = myadapter
-                        binding.rvView.layoutManager = LinearLayoutManager(requireContext())
-                        myadapter.differ.submitList(it.data)
+
+                        var message = ""
+
+                        for (i in it.data!!) {
+                            message = i.message
+                        }
+
+                        if (message == "Current month no due is pending") {
+                            binding.noDuesTextView.visibility = View.VISIBLE
+                            binding.rvView.visibility = View.GONE
+                        } else {
+                            binding.noDuesTextView.visibility = View.GONE
+                            binding.rvView.visibility = View.VISIBLE
+
+                            myadapter = PayDueAdapter(requireContext())
+                            binding.rvView.adapter = myadapter
+                            binding.rvView.layoutManager = LinearLayoutManager(requireContext())
+                            myadapter.differ.submitList(it.data)
+                        }
                     }
                 }
             }

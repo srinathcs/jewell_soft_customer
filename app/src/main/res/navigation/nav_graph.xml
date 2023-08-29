@@ -73,6 +73,19 @@
         android:id="@+id/perBookFragment"
         android:name="com.sgs.manthara.fragment.PerBookFragment"
         android:label="PerBookFragment" />
-
+    <fragment
+        android:id="@+id/jewellOfferFragment"
+        android:name="com.sgs.manthara.fragment.JewellOfferFragment"
+        android:label="fragment_jewell_offer"
+        tools:layout="@layout/fragment_jewell_offer" />
+    <fragment
+        android:id="@+id/wishListFragment"
+        android:name="com.sgs.manthara.fragment.WishListFragment"
+        android:label="fragment_wish_list"
+        tools:layout="@layout/fragment_wish_list" />
+    <fragment
+        android:id="@+id/textileOfferFragment"
+        android:name="com.sgs.manthara.fragment.TextileOfferFragment"
+        android:label="TextileOfferFragment" />
 
 </navigation>

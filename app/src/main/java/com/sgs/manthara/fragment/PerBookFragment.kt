@@ -10,12 +10,12 @@ import com.sgs.manthara.R
 import com.sgs.manthara.databinding.FragmentPerBookBinding
 
 class PerBookFragment : Fragment() {
-private lateinit var binding: FragmentPerBookBinding
+    private lateinit var binding: FragmentPerBookBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
-        binding = FragmentPerBookBinding.inflate(inflater,container,false)
+    ): View {
+        binding = FragmentPerBookBinding.inflate(inflater, container, false)
         binding.btnSubmit.setOnClickListener {
             findNavController().navigate(R.id.newDesginReqFragment)
         }

@@ -77,14 +77,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etSearch" />
 
-        <View
-            android:id="@+id/vView"
+        <LinearLayout
+            android:id="@+id/llLayout"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFF"
-            app:layout_constraintTop_toBottomOf="@id/tvTextiles" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvTextiles">
+
+            <View
+                android:id="@+id/vView"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTextiles" />
+
+            <View
+                android:id="@+id/vView2"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="220dp"
+                android:layout_weight="1"
+                android:background="#FFF"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/vView"
+                app:layout_constraintTop_toBottomOf="@id/tvTextiles" />
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvView"
@@ -93,7 +116,7 @@
             android:layout_marginHorizontal="60dp"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/vView">
+            app:layout_constraintTop_toBottomOf="@id/llLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -163,46 +186,10 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/ivJOne"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/ic_jewell_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvView" />
-
-        <ImageView
-            android:id="@+id/ivJTwo"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            android:src="@drawable/ic_jewell_two"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvView" />
-
-        <ImageView
-            android:id="@+id/ivJThree"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:paddingBottom="10dp"
-            android:src="@drawable/ic_jewell_two"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivJOne" />
-
-        <ImageView
-            android:id="@+id/ivJFour"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            android:paddingBottom="10dp"
-            android:src="@drawable/ic_jewell_one"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivJOne" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/cvView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

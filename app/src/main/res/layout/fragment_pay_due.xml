@@ -20,11 +20,22 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/noDuesTextView"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Current month no due is pending"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

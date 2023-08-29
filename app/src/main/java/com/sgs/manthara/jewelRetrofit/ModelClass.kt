@@ -82,5 +82,6 @@ data class PendingDue(
     val sch_name: String,
     val due_no: String,
     val due_date: String,
-    val amount: String
+    val amount: String,
+    val message: String
 )

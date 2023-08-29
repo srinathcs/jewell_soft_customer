@@ -71,19 +71,19 @@
         app:layout_constraintTop_toBottomOf="@id/card" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/clLayout"
         app:layout_constraintTop_toBottomOf="@+id/tilOne">
 
         <TextView
             android:id="@+id/tvGlLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gold"
             android:layout_marginStart="30dp"
+            android:text="Gold"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -94,9 +94,9 @@
             android:id="@+id/tvGrLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:fontFamily="@font/poppins_regular"
             android:text="1 Gram"
-            android:layout_marginStart="30dp"
             android:textColor="@color/black"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,12 +106,12 @@
             android:id="@+id/tvGold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:fontFamily="@font/poppins_regular"
             android:text="0000"
             android:textColor="#09a08d"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginStart="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGrLabel" />
 
@@ -119,11 +119,11 @@
             android:id="@+id/tvslLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:text="Silver"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginStart="40dp"
             app:layout_constraintStart_toEndOf="@id/tvGrLabel"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -131,11 +131,11 @@
             android:id="@+id/tvslgrLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:fontFamily="@font/poppins_regular"
             android:text="1 Gram"
             android:textColor="@color/black"
             android:textSize="13sp"
-            android:layout_marginStart="40dp"
             app:layout_constraintStart_toEndOf="@id/tvGrLabel"
             app:layout_constraintTop_toBottomOf="@+id/tvslLabel" />
 
@@ -143,9 +143,9 @@
             android:id="@+id/tvSilver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:fontFamily="@font/poppins_regular"
             android:text="0000"
-            android:layout_marginStart="40dp"
             android:textColor="#09a08d"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -156,11 +156,11 @@
             android:id="@+id/tvdaLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:text="Diamond"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginStart="40dp"
             app:layout_constraintStart_toEndOf="@id/tvslgrLabel"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -168,9 +168,9 @@
             android:id="@+id/tvdagrLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:fontFamily="@font/poppins_regular"
             android:text="1 Gram"
-            android:layout_marginStart="40dp"
             android:textColor="@color/black"
             android:textSize="13sp"
             app:layout_constraintStart_toEndOf="@id/tvslgrLabel"
@@ -180,12 +180,12 @@
             android:id="@+id/tvDiamond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:fontFamily="@font/poppins_regular"
             android:text="0000"
             android:textColor="#09a08d"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginStart="40dp"
             app:layout_constraintStart_toEndOf="@id/tvslgrLabel"
             app:layout_constraintTop_toBottomOf="@id/tvdagrLabel" />
 
@@ -193,10 +193,10 @@
             android:id="@+id/tvplLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:text="Platinum"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:layout_marginStart="40dp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tvdagrLabel"
             app:layout_constraintTop_toTopOf="parent" />
@@ -205,9 +205,9 @@
             android:id="@+id/tvplgrLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:fontFamily="@font/poppins_regular"
             android:text="1 Gram"
-            android:layout_marginStart="40dp"
             android:textColor="@color/black"
             android:textSize="13sp"
             app:layout_constraintStart_toEndOf="@id/tvdagrLabel"
@@ -217,10 +217,10 @@
             android:id="@+id/tvPlatinum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
             android:fontFamily="@font/poppins_regular"
             android:text="0000"
             android:textColor="#09a08d"
-            android:layout_marginStart="40dp"
             android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/tvdagrLabel"
@@ -236,7 +236,7 @@
         android:layout_marginTop="20dp"
         android:layerType="software"
         android:src="@drawable/dashed_line"
-        app:layout_constraintTop_toBottomOf="@+id/clLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/clLayout" />
 
 
     <ScrollView
@@ -421,12 +421,14 @@
                     android:src="@drawable/ic_totalweight" />
 
                 <ImageView
+                    android:id="@+id/ivJewellOffer"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_jewelloffers" />
 
                 <ImageView
+                    android:id="@+id/ivTextileOffer"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -493,6 +495,7 @@
                     android:src="@drawable/ic_order" />
 
                 <ImageView
+                    android:id="@+id/ivWishList"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginStart="-20dp"

@@ -38,12 +38,21 @@ class PayDueAdapter(val context: Context) :
     inner class PayDueViewHolder(private var binding: PayDueViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setView(view: PendingDue) {
-
-            binding.tvDue1.text = view.amount
-            binding.tvDueIn1.text = view.due_date
-            binding.tvChitName1.text = view.sch_type
-            binding.tvChitId1.text = view.sch_name
-            binding.tvDueno.text = view.due_no
+            if (view.due_no == null) {
+                // If dueno is null, show the message
+                binding.tvDue.text = view.message
+                binding.tvDueIn1.text = ""
+                binding.tvChitName1.text = ""
+                binding.tvChitId1.text = ""
+                binding.tvDueno.text = ""
+            } else {
+                // If dueno is not null, show the dues information
+                binding.tvDue1.text = view.amount
+                binding.tvDueIn1.text = view.due_date
+                binding.tvChitName1.text = view.sch_type
+                binding.tvChitId1.text = view.sch_name
+                binding.tvDueno.text = view.due_no
+            }
         }
 
     }

@@ -22,9 +22,12 @@ class NewArrivalsJewellFragment : Fragment() {
         }
         binding.tvJewell.setOnClickListener {
             findNavController().navigate(R.id.newArrivalsJewellFragment)
+
         }
+        binding.vView.visibility = View.GONE
+        binding.vView2.visibility = View.VISIBLE
+
         return binding.root
     }
-
 
 }
