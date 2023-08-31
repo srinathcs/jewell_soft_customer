@@ -13,6 +13,11 @@ data class ModelClass(
 data class OtpReceive(
     val error: Boolean,
     val error_msg: String,
+
+    )
+
+data class Save(
+    val message: String
 )
 
 data class SchemeDetails(
@@ -84,4 +89,18 @@ data class PendingDue(
     val due_date: String,
     val amount: String,
     val message: String
+)
+
+data class SubCategory(
+    val sub_category: String,
+    val id: String
+)
+
+data class PaidAmount(
+    val chit_id: String,
+    val sch_type: String,
+    val sch_name: String,
+    val due_no: String,
+    val due_date: String,
+    val amount: String
 )

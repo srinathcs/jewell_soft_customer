@@ -59,7 +59,6 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
         val adapter = ViewPagerAdapter(images)
         viewPager.adapter = adapter
         mainPreference = MainPreference(requireContext())
-
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)

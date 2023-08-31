@@ -87,5 +87,10 @@
         android:id="@+id/textileOfferFragment"
         android:name="com.sgs.manthara.fragment.TextileOfferFragment"
         android:label="TextileOfferFragment" />
+    <fragment
+        android:id="@+id/tickFragment"
+        android:name="com.sgs.manthara.fragment.TickFragment"
+        android:label="fragment_tick"
+        tools:layout="@layout/fragment_tick" />
 
 </navigation>

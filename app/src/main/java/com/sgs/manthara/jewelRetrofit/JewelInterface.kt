@@ -1,8 +1,12 @@
 package com.sgs.manthara.jewelRetrofit
 
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface JewelInterface {
 
@@ -122,5 +126,45 @@ interface JewelInterface {
         @Field("ln") ln: String,
         @Field("lt") lt: String,
         @Field("uid") uid: String
-    ):List<PendingDue>
+    ): List<PendingDue>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun jewellType(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("category") category: String
+    ): List<SubCategory>
+
+    @Multipart
+    @POST("jewel_index.php")
+    suspend fun addCustomDesign(
+        @Part("type") type: RequestBody,
+        @Part("cid") cid: RequestBody,
+        @Part("device_id") device: RequestBody,
+        @Part("ln") ln: RequestBody,
+        @Part("lt") lt: RequestBody,
+        @Part("uid") uid: RequestBody,
+        @Part("count") count: RequestBody,
+        @Part("jewel_type") jewelType: RequestBody,
+        @Part("gram") gram: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part jewel_image: MutableList<MultipartBody.Part>,
+    ): List<Save>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun paidAmount(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String
+    ):List<PaidAmount>
+
 }

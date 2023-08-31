@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
     <style name="AppTheme.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/theme</item>
         <item name="colorPrimaryVariant">@color/theme</item>
         <item name="android:statusBarColor">@color/theme</item>
+        <item name="titleTextColor">@color/white</item>
     </style>
 </resources>

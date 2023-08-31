@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
     private val testLogin = MutableStateFlow<Resources<ModelClass>>(Resources.Loading())
@@ -177,7 +179,8 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         }
     }
 
-    private val schemeTypeAuto = MutableStateFlow<Resources<List<SchemeTypeAuto>>>(Resources.Loading())
+    private val schemeTypeAuto =
+        MutableStateFlow<Resources<List<SchemeTypeAuto>>>(Resources.Loading())
     val schemeTypeAutoFlow: StateFlow<Resources<List<SchemeTypeAuto>>>
         get() = schemeTypeAuto
 
@@ -222,7 +225,25 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         purity: String,
     ) = viewModelScope.launch {
         try {
-            val response = jewelSoftRepo.saveScheme(type, cid, deviceId, ln, lt, uid, name, maturityDate, remark, emi, freeEmi, startDate, schemeName, schemeType, monthlyEmi, totalEmi, purity)
+            val response = jewelSoftRepo.saveScheme(
+                type,
+                cid,
+                deviceId,
+                ln,
+                lt,
+                uid,
+                name,
+                maturityDate,
+                remark,
+                emi,
+                freeEmi,
+                startDate,
+                schemeName,
+                schemeType,
+                monthlyEmi,
+                totalEmi,
+                purity
+            )
             saveScheme.value = Resources.Success(response)
         } catch (e: Exception) {
             saveScheme.value = Resources.Error(e.message.toString())
@@ -237,7 +258,7 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         type: String,
         cid: String,
         sub_type: String,
-        sch:String,
+        sch: String,
         date: String,
         deviceId: String,
         ln: String,
@@ -246,7 +267,7 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
     ) = viewModelScope.launch {
         try {
             val response = jewelSoftRepo.enrollmentScheme(
-                type, cid, sub_type, sch ,date,deviceId, ln, lt, uid
+                type, cid, sub_type, sch, date, deviceId, ln, lt, uid
             )
             enrollmentScheme.value = Resources.Success(response)
         } catch (e: Exception) {
@@ -268,11 +289,96 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
     ) = viewModelScope.launch {
         try {
             val response = jewelSoftRepo.pendingDue(
-                type, cid,deviceId, ln, lt, uid
+                type, cid, deviceId, ln, lt, uid
             )
             pendingDue.value = Resources.Success(response)
         } catch (e: Exception) {
             pendingDue.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val jewellType =
+        MutableStateFlow<Resources<List<SubCategory>>>(Resources.Loading())
+    val jewellTypeFlow: StateFlow<Resources<List<SubCategory>>> = jewellType
+
+    suspend fun jewellType(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        category: String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.jewellType(
+                type, cid, deviceId, ln, lt, uid, category
+            )
+            jewellType.value = Resources.Success(response)
+        } catch (e: Exception) {
+            jewellType.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val _addImage = MutableStateFlow<Resources<List<Save>>>(Resources.Loading())
+    val addImageFlow: StateFlow<Resources<List<Save>>>
+        get() = _addImage
+
+    suspend fun addImagesProperty(
+
+        type: RequestBody,
+        cid: RequestBody,
+        ln: RequestBody,
+        lt: RequestBody,
+        device: RequestBody,
+        uid: RequestBody,
+        count: RequestBody,
+        jewelType: RequestBody,
+        gram: RequestBody,
+        description: RequestBody,
+        pro_img: MutableList<MultipartBody.Part>,
+
+        ) = viewModelScope.launch {
+        try {
+            val response =
+                jewelSoftRepo.getImage(
+                    type,
+                    cid,
+                    ln,
+                    lt,
+                    device,
+                    uid,
+                    count,
+                    jewelType,
+                    gram,
+                    description,
+                    pro_img
+                )
+            _addImage.value = Resources.Success(response)
+        } catch (e: Exception) {
+            _addImage.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val paidAmount =
+        MutableStateFlow<Resources<List<PaidAmount>>>(Resources.Loading())
+    val paidAmountFlow: StateFlow<Resources<List<PaidAmount>>> = paidAmount
+
+    suspend fun paidAmount(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.paidAmount(
+                type, cid, deviceId, ln, lt, uid,
+            )
+            paidAmount.value = Resources.Success(response)
+        } catch (e: Exception) {
+            paidAmount.value = Resources.Error(e.message.toString())
         }
     }
 }

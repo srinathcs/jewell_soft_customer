@@ -1,7 +1,7 @@
 package com.sgs.manthara.jewelRetrofit
 
-import retrofit2.Retrofit
-import retrofit2.http.Field
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class JewelRepo {
     suspend fun jewelSoft(
@@ -12,8 +12,7 @@ class JewelRepo {
         lt: String,
         mobile: String,
         token: String,
-
-        ) = JewelSoftRetro.api.jewelSoft(type, cid, deviceId, ln, lt, mobile, token)
+    ) = JewelSoftRetro.api.jewelSoft(type, cid, deviceId, ln, lt, mobile, token)
 
     suspend fun otpRec(
         type: String,
@@ -122,4 +121,37 @@ class JewelRepo {
         lt: String,
         uid: String
     ) = JewelSoftRetro.api.pendingDue(type, cid, deviceId, ln, lt, uid)
+
+    suspend fun jewellType(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        category: String
+    ) = JewelSoftRetro.api.jewellType(type, cid, deviceId, ln, lt, uid, category)
+
+    suspend fun getImage(
+        type:RequestBody,
+        cid:RequestBody,
+        ln:RequestBody,
+        lt:RequestBody,
+        device: RequestBody,
+        uid:RequestBody,
+        count: RequestBody,
+        jewelType:RequestBody,
+        gram:RequestBody,
+        description:RequestBody,
+        pro_img: MutableList<MultipartBody.Part>,
+        )=JewelSoftRetro.api.addCustomDesign(type,cid,ln,lt,device,uid,count, jewelType, gram, description, pro_img)
+
+    suspend fun paidAmount(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String
+    ) = JewelSoftRetro.api.paidAmount(type, cid, deviceId, ln, lt, uid)
 }
