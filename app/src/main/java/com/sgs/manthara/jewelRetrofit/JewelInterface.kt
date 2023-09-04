@@ -1,5 +1,6 @@
 package com.sgs.manthara.jewelRetrofit
 
+import android.telephony.mbms.MbmsErrors.StreamingErrors
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -165,6 +166,110 @@ interface JewelInterface {
         @Field("ln") ln: String,
         @Field("lt") lt: String,
         @Field("uid") uid: String
-    ):List<PaidAmount>
+    ): List<PaidAmount>
 
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun newJewelArrival(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("pro_cat") proCat: String
+    ): List<NewJewellArrival>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun selectedJewel(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("id") id: String,
+    ): ProductDetails
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun totalWeight(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+    ): List<TotalWeight>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun preBook(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("id") id: String,
+    ): PreBook
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun showPerBook(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+    ): List<ShowPerBook>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun selectedTextile(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("id") id: String
+    ): TextileDetails
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun offerJewel(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("pro_cat") id: String
+    ): List<OfferJewell>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun wishList(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("id") id: String
+    ): WishlistAdd
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun showWishList(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+    ): List<ShowWishList>
 }

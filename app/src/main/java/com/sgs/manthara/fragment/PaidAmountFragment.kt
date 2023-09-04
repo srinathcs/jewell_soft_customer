@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sgs.manthara.R
 import com.sgs.manthara.adapter.PaidAmountAdapter
 import com.sgs.manthara.databinding.FragmentPaidAmountBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -90,7 +89,6 @@ class PaidAmountFragment : Fragment() {
                         binding.rvView.layoutManager = LinearLayoutManager(requireContext())
                         myadapter.differ.submitList(it.data)
                     }
-
                 }
             }
         }

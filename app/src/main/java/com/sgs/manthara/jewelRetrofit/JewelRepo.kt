@@ -154,4 +154,91 @@ class JewelRepo {
         lt: String,
         uid: String
     ) = JewelSoftRetro.api.paidAmount(type, cid, deviceId, ln, lt, uid)
+
+    suspend fun newJewelArrival(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proCat:String
+    ) = JewelSoftRetro.api.newJewelArrival(type, cid, deviceId, ln, lt, uid,proCat)
+
+    suspend fun selectedJewel(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String,
+    ) = JewelSoftRetro.api.selectedJewel(type, cid, deviceId, ln, lt, uid,id)
+
+    suspend fun totalWeight(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+    ) = JewelSoftRetro.api.totalWeight(type, cid, deviceId, ln, lt, uid)
+
+    suspend fun preBook(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String,
+    ) = JewelSoftRetro.api.preBook(type, cid, deviceId, ln, lt, uid,id)
+
+    suspend fun showPerBook(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+    ) = JewelSoftRetro.api.showPerBook(type, cid, deviceId, ln, lt, uid)
+
+    suspend fun selectedTextile(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String
+    ) = JewelSoftRetro.api.selectedTextile(type, cid, deviceId, ln, lt, uid,id)
+
+    suspend fun offerJewell(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proCat: String
+    ) = JewelSoftRetro.api.offerJewel(type, cid, deviceId, ln, lt, uid,proCat)
+
+    suspend fun wishList(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String
+    ) = JewelSoftRetro.api.wishList(type, cid, deviceId, ln, lt, uid,id)
+
+    suspend fun showWishList(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String
+    ) = JewelSoftRetro.api.showWishList(type, cid, deviceId, ln, lt, uid)
 }

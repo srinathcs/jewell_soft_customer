@@ -252,7 +252,8 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
 
     private val enrollmentScheme =
         MutableStateFlow<Resources<List<EnrollmentScheme>>>(Resources.Loading())
-    val enrollmentSchemeFlow: StateFlow<Resources<List<EnrollmentScheme>>> = enrollmentScheme
+    val enrollmentSchemeFlow: StateFlow<Resources<List<EnrollmentScheme>>>
+        get() = enrollmentScheme
 
     suspend fun enrollmentScheme(
         type: String,
@@ -277,7 +278,8 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
 
     private val pendingDue =
         MutableStateFlow<Resources<List<PendingDue>>>(Resources.Loading())
-    val pendingDueFlow: StateFlow<Resources<List<PendingDue>>> = pendingDue
+    val pendingDueFlow: StateFlow<Resources<List<PendingDue>>>
+        get() = pendingDue
 
     suspend fun pendingDue(
         type: String,
@@ -299,7 +301,8 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
 
     private val jewellType =
         MutableStateFlow<Resources<List<SubCategory>>>(Resources.Loading())
-    val jewellTypeFlow: StateFlow<Resources<List<SubCategory>>> = jewellType
+    val jewellTypeFlow: StateFlow<Resources<List<SubCategory>>>
+        get() = jewellType
 
     suspend fun jewellType(
         type: String,
@@ -362,7 +365,8 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
 
     private val paidAmount =
         MutableStateFlow<Resources<List<PaidAmount>>>(Resources.Loading())
-    val paidAmountFlow: StateFlow<Resources<List<PaidAmount>>> = paidAmount
+    val paidAmountFlow: StateFlow<Resources<List<PaidAmount>>>
+        get() = paidAmount
 
     suspend fun paidAmount(
         type: String,
@@ -379,6 +383,267 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
             paidAmount.value = Resources.Success(response)
         } catch (e: Exception) {
             paidAmount.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val newJewellArrival =
+        MutableStateFlow<Resources<List<NewJewellArrival>>>(Resources.Loading())
+    val newJewellArrivalFlow: StateFlow<Resources<List<NewJewellArrival>>>
+        get() = newJewellArrival
+
+    suspend fun newJewellArrival(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proCat:String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.newJewelArrival(
+                type, cid, deviceId, ln, lt, uid,proCat
+            )
+            newJewellArrival.value = Resources.Success(response)
+        } catch (e: Exception) {
+            newJewellArrival.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val selectedJewel =
+        MutableStateFlow<Resources<ProductDetails>>(Resources.Loading())
+    val selectedJewelFlow: StateFlow<Resources<ProductDetails>>
+        get() = selectedJewel
+
+    suspend fun selectedJewel(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String,
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.selectedJewel(
+                type, cid, deviceId, ln, lt, uid, id
+            )
+            selectedJewel.value = Resources.Success(response)
+        } catch (e: Exception) {
+            selectedJewel.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val totalWeight =
+        MutableStateFlow<Resources<List<TotalWeight>>>(Resources.Loading())
+    val totalWeightFlow: StateFlow<Resources<List<TotalWeight>>>
+        get() = totalWeight
+
+    suspend fun totalWeight(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+
+        ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.totalWeight(
+                type, cid, deviceId, ln, lt, uid,
+            )
+            totalWeight.value = Resources.Success(response)
+        } catch (e: Exception) {
+            totalWeight.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val preBook =
+        MutableStateFlow<Resources<PreBook>>(Resources.Loading())
+    val preBookFlow: StateFlow<Resources<PreBook>>
+        get() = preBook
+
+    suspend fun preBook(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id:String
+
+        ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.preBook(
+                type, cid, deviceId, ln, lt, uid,id
+            )
+            preBook.value = Resources.Success(response)
+        } catch (e: Exception) {
+            preBook.value = Resources.Error(e.message.toString())
+        }
+    }
+
+
+    private val showPerBook =
+        MutableStateFlow<Resources<List<ShowPerBook>>>(Resources.Loading())
+    val showPerBookFlow: StateFlow<Resources<List<ShowPerBook>>>
+        get() = showPerBook
+
+    suspend fun showPerBook(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+
+        ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.showPerBook(
+                type, cid, deviceId, ln, lt, uid,
+            )
+            showPerBook.value = Resources.Success(response)
+        } catch (e: Exception) {
+            showPerBook.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val newTextilesArrival =
+        MutableStateFlow<Resources<List<NewJewellArrival>>>(Resources.Loading())
+    val newTextilesArrivalFlow: StateFlow<Resources<List<NewJewellArrival>>>
+        get() = newTextilesArrival
+    suspend fun newTextilesArrival(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proCat:String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.newJewelArrival(
+                type, cid, deviceId, ln, lt, uid,proCat
+            )
+            newTextilesArrival.value = Resources.Success(response)
+        } catch (e: Exception) {
+            newTextilesArrival.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val selectedTextile =
+        MutableStateFlow<Resources<TextileDetails>>(Resources.Loading())
+    val selectedTextileFlow: StateFlow<Resources<TextileDetails>>
+        get() = selectedTextile
+
+    suspend fun selectedTextile(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.selectedTextile(
+                type, cid, deviceId, ln, lt, uid, id
+            )
+            selectedTextile.value = Resources.Success(response)
+        } catch (e: Exception) {
+            selectedTextile.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val offerJewell =
+        MutableStateFlow<Resources<List<OfferJewell>>>(Resources.Loading())
+    val offerJewellFlow: StateFlow<Resources<List<OfferJewell>>>
+        get() = offerJewell
+    suspend fun offerJewell(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proCat: String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.offerJewell(
+                type, cid, deviceId, ln, lt, uid, proCat
+            )
+            offerJewell.value = Resources.Success(response)
+        } catch (e: Exception) {
+            offerJewell.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val offerTextile =
+        MutableStateFlow<Resources<List<OfferJewell>>>(Resources.Loading())
+    val offerTextileFlow: StateFlow<Resources<List<OfferJewell>>>
+        get() = offerTextile
+    suspend fun offerTextile(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proCat: String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.offerJewell(
+                type, cid, deviceId, ln, lt, uid, proCat
+            )
+            offerTextile.value = Resources.Success(response)
+        } catch (e: Exception) {
+            offerTextile.value = Resources.Error(e.message.toString())
+        }
+    }
+
+
+    private val wishList =
+        MutableStateFlow<Resources<WishlistAdd>>(Resources.Loading())
+    val wishListFlow: StateFlow<Resources<WishlistAdd>>
+        get() = wishList
+    suspend fun wishList(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.wishList(
+                type, cid, deviceId, ln, lt, uid, id
+            )
+            wishList.value = Resources.Success(response)
+        } catch (e: Exception) {
+            wishList.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val showWishList =
+        MutableStateFlow<Resources<List<ShowWishList>>>(Resources.Loading())
+    val showWishListFlow: StateFlow<Resources<List<ShowWishList>>>
+        get() = showWishList
+    suspend fun showWishList(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.showWishList(
+                type, cid, deviceId, ln, lt, uid
+            )
+            showWishList.value = Resources.Success(response)
+        } catch (e: Exception) {
+            showWishList.value = Resources.Error(e.message.toString())
         }
     }
 }

@@ -15,9 +15,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/ic_logo_"
+        android:label="Manthara"
+        android:roundIcon="@drawable/ic_logo_"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:targetApi="31">
@@ -36,8 +36,8 @@
         <activity
             android:name=".activity.Splash"
             android:exported="true"
-            android:label="Retrofit"
-            android:theme="@style/AppTheme.NoActionBar"> <!-- Use appropriate theme here -->
+            android:label="Manthara"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

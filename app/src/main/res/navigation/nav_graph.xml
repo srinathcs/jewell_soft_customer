@@ -73,6 +73,9 @@
         android:id="@+id/perBookFragment"
         android:name="com.sgs.manthara.fragment.PerBookFragment"
         android:label="PerBookFragment" />
+    <argument
+        android:name="productId"
+        app:argType="string" />
     <fragment
         android:id="@+id/jewellOfferFragment"
         android:name="com.sgs.manthara.fragment.JewellOfferFragment"
@@ -92,5 +95,9 @@
         android:name="com.sgs.manthara.fragment.TickFragment"
         android:label="fragment_tick"
         tools:layout="@layout/fragment_tick" />
+    <fragment
+        android:id="@+id/textileViewFragment"
+        android:name="com.sgs.manthara.fragment.TextileViewFragment"
+        android:label="TextileViewFragment" />
 
 </navigation>

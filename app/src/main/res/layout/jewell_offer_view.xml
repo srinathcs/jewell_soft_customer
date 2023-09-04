@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="150dp"
+    android:layout_height="190dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="20dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvParent"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="#e8e8e8"
+        android:outlineSpotShadowColor="@color/white"
+        android:padding="5dp"
+        android:paddingBottom="5dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llParent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#e8e8e8">
+            android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvImg"
@@ -30,31 +36,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/ivWish"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_empty_wish" />
-
-                <ImageView
-                    android:id="@+id/ivIcon"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_logo_"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/ivIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_logo_" />
+
+                    <CheckBox
+                        android:id="@+id/ivWish"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="end|top"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="5dp"
+                        android:button="@drawable/ic_wish_list"
+                        app:useMaterialThemeColors="true" />
+                </FrameLayout>
             </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="Name"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tvPrice"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvImg" />
 
@@ -62,9 +74,11 @@
                 android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="price"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvName" />
 

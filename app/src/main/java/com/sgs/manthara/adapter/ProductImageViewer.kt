@@ -1,13 +1,15 @@
 package com.sgs.manthara.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sgs.manthara.R
 
-class ViewPagerAdapter(private val images: List<Int>) : RecyclerView.Adapter<ViewPagerAdapter.ViewHolder>() {
+class ProductImageViewer (var context: Context, private val images: List<String>) : RecyclerView.Adapter<ProductImageViewer.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.image_view, parent, false)
@@ -16,7 +18,8 @@ class ViewPagerAdapter(private val images: List<Int>) : RecyclerView.Adapter<Vie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imageRes = images[position]
-        holder.bind(imageRes.toInt())
+        val final = imageRes.replace("..", "")
+        Glide.with(context).load(final).into(holder.imageView)
     }
 
     override fun getItemCount(): Int {
@@ -24,10 +27,7 @@ class ViewPagerAdapter(private val images: List<Int>) : RecyclerView.Adapter<Vie
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.imageView)
+        val imageView: ImageView = itemView.findViewById(R.id.imageView)
 
-        fun bind(imageRes: Int) {
-            imageView.setImageResource(imageRes)
-        }
     }
 }

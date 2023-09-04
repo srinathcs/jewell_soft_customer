@@ -1,65 +1,169 @@
 package com.sgs.manthara.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.sgs.manthara.R
-import com.sgs.manthara.adapter.ViewPagerAdapter
+import com.sgs.manthara.adapter.ProductImageViewer
 import com.sgs.manthara.databinding.FragmentAddPreBookBinding
-import com.sgs.manthara.databinding.WishlistViewBinding
+import com.sgs.manthara.jewelRetrofit.JewelFactory
+import com.sgs.manthara.jewelRetrofit.JewelRepo
+import com.sgs.manthara.jewelRetrofit.JewelVM
+import com.sgs.manthara.jewelRetrofit.MainPreference
+import com.sgs.manthara.jewelRetrofit.Resources
+import com.sgs.manthara.location.FusedLocationService
+import kotlinx.coroutines.flow.first
 
 class AddPreBookFragment : Fragment() {
+    private val jewelSoftVM: JewelVM by lazy {
+        val repos = JewelRepo()
+        val factory = JewelFactory(repos)
+        ViewModelProvider(this, factory)[JewelVM::class.java]
+    }
+    private lateinit var mainPreference: MainPreference
     private lateinit var binding: FragmentAddPreBookBinding
     private lateinit var viewPager: ViewPager2
-    private lateinit var dotsLayout: LinearLayout
-    private val images = listOf(R.drawable.ic_one, R.drawable.ic_two, R.drawable.ic_three)
+    private var id = ""
+
+    private var lt = ""
+    private var ln = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAddPreBookBinding.inflate(inflater, container, false)
-        val adapter = ViewPagerAdapter(images)
-        viewPager = binding.view
-        dotsLayout = binding.dotsLayout
-        viewPager.adapter = adapter
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                updateDots(position)
-            }
-        })
+        mainPreference = MainPreference(requireContext())
+        FusedLocationService.latitudeFlow.observe(requireActivity()) {
+            lt = it.latitude.toString()
+            ln = it.longitude.toString()
+            Log.i("TAG", "onCreateL:$lt")
+            Log.i("TAG", "onCreateLo:$ln")
 
-        createDots()
+        }
+        binding = FragmentAddPreBookBinding.inflate(inflater, container, false)
+        id = requireArguments().getString("id")!!
+
+        binding.btnAdd.setOnClickListener {
+            addPerBook()
+        }
+
+        viewItem()
+
         return binding.root
     }
 
-    private fun updateDots(currentPosition: Int) {
-        for (i in 0 until dotsLayout.childCount) {
-            val dot = dotsLayout.getChildAt(i) as ImageView
-            dot.setImageResource(
-                if (i == currentPosition) R.drawable.ic_dot_filled else R.drawable.ic_viewpage_empty
+    private fun addPerBook() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId =
+                Settings.Secure.getString(
+                    requireContext().contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+            jewelSoftVM.preBook(
+                "24",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                id
             )
+        }
+        addPerBookResponse()
+    }
+
+    private fun addPerBookResponse() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.preBookFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "addPerBookError: ${it.message}")
+
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "addPerBook: ${it.data}")
+                        if (it.data!!.error == false) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Add On Orders",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            findNavController().navigate(R.id.tickFragment)
+                        }
+                    }
+                }
+            }
         }
     }
 
-    private fun createDots() {
-        for (i in images.indices) {
-            val dot = ImageView(requireContext())
-            dot.setImageResource(R.drawable.ic_viewpage_empty)
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+    @SuppressLint("HardwareIds")
+    private fun viewItem() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId =
+                Settings.Secure.getString(
+                    requireContext().contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+            jewelSoftVM.selectedJewel(
+                "22",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                id
             )
-            params.setMargins(6, 0, 6, 0)
-            dotsLayout.addView(dot, params)
         }
-        updateDots(0)
+        viewItemRespones()
     }
 
+    private fun viewItemRespones() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.selectedJewelFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "viewItemError: ${it.message}")
+
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "viewItem: ${it.data}")
+
+                        val adapter = ProductImageViewer(requireContext(), it.data!!.img)
+                        viewPager = binding.view
+                        viewPager.adapter = adapter
+
+                        val dotsIndicator = binding.dotsIndicator
+                        val viewPager = binding.view
+                        viewPager.adapter = adapter
+                        dotsIndicator.attachTo(viewPager)
+
+                        binding.tvGrams.text = it.data.`0`.proquan
+                        binding.tvNeck.text = it.data.`0`.proname
+                        binding.tvPrice.text = it.data.`0`.proprice
+
+                    }
+                }
+            }
+        }
+    }
 }

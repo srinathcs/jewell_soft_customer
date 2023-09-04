@@ -1,5 +1,6 @@
 package com.sgs.manthara.jewelRetrofit
 
+
 data class ModelClass(
     val cus_id: String,
     val cus_name: String,
@@ -103,4 +104,110 @@ data class PaidAmount(
     val due_no: String,
     val due_date: String,
     val amount: String
+)
+
+data class NewJewellArrival(
+    val id: String,
+    val sub_cat: String,
+    val proname: String,
+    val proprice: String,
+    val proquan: String,
+    val img1: String,
+    val img2: String,
+    val img3: String,
+    val img4: String,
+)
+
+data class Product(
+    val id: String,
+    val sub_cat: String,
+    val proname: String,
+    val proprice: String,
+    val proquan: String,
+    val img1: String,
+    val img2: String,
+    val img3: String,
+    val img4: String
+)
+
+data class ProductDetails(
+    val `0`: Product,
+    val img: List<String>
+)
+
+data class TotalWeight(
+    val chit_id: String,
+    val sch_type: String,
+    val sch_name: String,
+    val paid_due: String,
+    val paid: String,
+    val total_weigth: String,
+    val error_message: Boolean
+)
+
+data class PreBook(
+    val error: Boolean,
+    val message: String
+)
+
+data class ShowPerBook(
+    val id: String,
+    val mid: String,
+    val date: String,
+    val product_cat: String,
+    val sub_cat: String,
+    val proname: String,
+    val proprice: String,
+    val order_status: String,
+    val img1: String,
+)
+
+data class Textile(
+    val id: String,
+    val sub_cat: String,
+    val proname: String,
+    val proprice: String,
+    val proquan: String,
+    val img1: String,
+    val img2: String,
+    val img3: String,
+    val img4: String
+)
+
+data class TextileDetails(
+    val `0`: Textile,
+    val img: List<String>
+)
+
+data class OfferJewell(
+    val id: String,
+    val sub_cat: String,
+    val proname: String,
+    val offer_precetage:String,
+    val proprice: String,
+    val proquan: String,
+    val img1: String,
+    val img2: String,
+    val img3: String,
+    val img4: String
+)
+
+data class WishlistAdd(
+    val error: Boolean,
+    val message: String
+)
+
+data class ShowWishList(
+    val id: String,
+    val mid: String,
+    val date: String,
+    val product_cat: String,
+    val sub_cat: String,
+    val proname: String,
+    val proprice: String,
+    val img1: String,
+    val img2: String,
+    val img3: String,
+    val img4: String,
+    val booked_status: String
 )

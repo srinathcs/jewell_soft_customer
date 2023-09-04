@@ -8,26 +8,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sgs.manthara.databinding.JewellOfferViewBinding
-import com.sgs.manthara.databinding.TexeileOfferViewBinding
 import com.sgs.manthara.jewelRetrofit.NewJewellArrival
-import com.sgs.manthara.jewelRetrofit.OfferJewell
 
-class TextileOfferAdapter(val context: Context) :
-    RecyclerView.Adapter<TextileOfferAdapter.TextileOffersViewHolder>() {
-
-    var dashboardListener: ((locationModel: OfferJewell) -> Unit)? = null
-
+class TextileAdapter(val context: Context) : RecyclerView.Adapter<TextileAdapter.JewellOffersViewHolder>() {
+    var dashboardListener: ((locationModel: NewJewellArrival) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): TextileOfferAdapter.TextileOffersViewHolder {
-        return TextileOffersViewHolder(
-            TexeileOfferViewBinding.inflate(LayoutInflater.from(context), parent, false)
+    ): TextileAdapter.JewellOffersViewHolder {
+        return JewellOffersViewHolder(
+            JewellOfferViewBinding.inflate(LayoutInflater.from(context), parent, false)
         )
     }
 
     override fun onBindViewHolder(
-        holder: TextileOfferAdapter.TextileOffersViewHolder,
+        holder: TextileAdapter.JewellOffersViewHolder,
         position: Int
     ) {
         try {
@@ -42,9 +37,9 @@ class TextileOfferAdapter(val context: Context) :
         return differ.currentList.size
     }
 
-    inner class TextileOffersViewHolder(private var binding: TexeileOfferViewBinding) :
+    inner class JewellOffersViewHolder(private var binding: JewellOfferViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setView(view: OfferJewell) {
+        fun setView(view: NewJewellArrival) {
             val final = view.img1!!.replace("..", "")
             Glide.with(context).load(final).into(binding.ivIcon)
             binding.tvName.text = view.proname
@@ -68,17 +63,17 @@ class TextileOfferAdapter(val context: Context) :
         }
     }
 
-    private val callback = object : DiffUtil.ItemCallback<OfferJewell>() {
+    private val callback = object : DiffUtil.ItemCallback<NewJewellArrival>() {
         override fun areItemsTheSame(
-            oldItem: OfferJewell,
-            newItem: OfferJewell
+            oldItem: NewJewellArrival,
+            newItem: NewJewellArrival
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: OfferJewell,
-            newItem: OfferJewell
+            oldItem: NewJewellArrival,
+            newItem: NewJewellArrival
         ): Boolean {
             return oldItem == newItem
         }

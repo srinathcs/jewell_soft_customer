@@ -98,4 +98,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-service:2.6.1'
 
     implementation 'com.airbnb.android:lottie:5.2.0'
+
+//dot
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }

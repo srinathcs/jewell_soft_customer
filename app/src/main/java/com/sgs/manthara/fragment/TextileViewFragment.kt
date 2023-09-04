@@ -1,5 +1,6 @@
 package com.sgs.manthara.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -9,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import com.sgs.manthara.adapter.JewellOffersAdapter
-import com.sgs.manthara.databinding.FragmentJewellOfferBinding
+import androidx.viewpager2.widget.ViewPager2
+import com.sgs.manthara.R
+import com.sgs.manthara.adapter.ProductImageViewer
+import com.sgs.manthara.adapter.TextileImageViewer
+import com.sgs.manthara.databinding.FragmentAddPreBookBinding
+import com.sgs.manthara.databinding.FragmentTextileViewBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
 import com.sgs.manthara.jewelRetrofit.JewelRepo
 import com.sgs.manthara.jewelRetrofit.JewelVM
@@ -20,15 +24,16 @@ import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
 import kotlinx.coroutines.flow.first
 
-class JewellOfferFragment : Fragment() {
-    private lateinit var binding: FragmentJewellOfferBinding
+class TextileViewFragment : Fragment() {
+    private lateinit var binding: FragmentTextileViewBinding
+    private var idTextile = ""
     private val jewelSoftVM: JewelVM by lazy {
         val repos = JewelRepo()
         val factory = JewelFactory(repos)
         ViewModelProvider(this, factory)[JewelVM::class.java]
     }
     private lateinit var mainPreference: MainPreference
-    private lateinit var myadapter: JewellOffersAdapter
+    private lateinit var viewPager: ViewPager2
     private var lt = ""
     private var ln = ""
 
@@ -36,7 +41,7 @@ class JewellOfferFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentJewellOfferBinding.inflate(inflater, container, false)
+        binding = FragmentTextileViewBinding.inflate(inflater, container, false)
         mainPreference = MainPreference(requireContext())
         FusedLocationService.latitudeFlow.observe(requireActivity()) {
             lt = it.latitude.toString()
@@ -45,48 +50,60 @@ class JewellOfferFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
 
         }
-        jewelOffer()
+        idTextile = requireArguments().getString("idTextile")!!
+
+        Log.i("TAG", "onCreateView:${idTextile} ")
+        viewTextileItem()
         return binding.root
     }
 
-    private fun jewelOffer() {
+    @SuppressLint("HardwareIds")
+    private fun viewTextileItem() {
         lifecycleScope.launchWhenStarted {
             val deviceId =
                 Settings.Secure.getString(
                     requireContext().contentResolver,
                     Settings.Secure.ANDROID_ID
                 )
-            jewelSoftVM.offerJewell(
-                "27",
+            jewelSoftVM.selectedTextile(
+                "22",
                 mainPreference.getCid().first(),
                 deviceId,
                 ln,
                 lt,
                 mainPreference.getUserId().first(),
-                "1"
+                idTextile,
             )
         }
-        jewelRespones()
+        viewItemRespones()
     }
 
-    private fun jewelRespones() {
+    private fun viewItemRespones() {
         lifecycleScope.launchWhenStarted {
-            jewelSoftVM.offerJewellFlow.collect {
+            jewelSoftVM.selectedTextileFlow.collect {
                 when (it) {
                     is Resources.Loading -> {
 
                     }
 
                     is Resources.Error -> {
-                        Log.i("TAG", "jewelRespones:${it.message}")
+                        Log.i("TAG", "viewItemError: ${it.message}")
+
                     }
 
                     is Resources.Success -> {
-                        Log.i("TAG", "jewelRespones:${it.data}")
-                        myadapter = JewellOffersAdapter(requireContext())
-                        binding.rvView.adapter = myadapter
-                        binding.rvView.layoutManager = GridLayoutManager(requireContext(), 2)
-                        myadapter.differ.submitList(it.data)
+                        Log.i("TAG", "viewItem: ${it.data}")
+
+                        val adapter = ProductImageViewer(requireContext(), it.data!!.img)
+                        viewPager = binding.view
+                        viewPager.adapter = adapter
+
+                        val dotsIndicator = binding.dotsIndicator
+                        dotsIndicator.attachTo(viewPager)
+
+                        binding.tvGrams.text = it.data.`0`.proquan
+                        binding.tvNeck.text = it.data.`0`.proname
+                        binding.tvPrice.text = it.data.`0`.proprice
                     }
                 }
             }
