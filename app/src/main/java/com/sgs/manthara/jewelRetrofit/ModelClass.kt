@@ -116,6 +116,7 @@ data class NewJewellArrival(
     val img2: String,
     val img3: String,
     val img4: String,
+    val wishlist_status: String,
 )
 
 data class Product(
@@ -183,7 +184,7 @@ data class OfferJewell(
     val id: String,
     val sub_cat: String,
     val proname: String,
-    val offer_precetage:String,
+    val offer_precetage: String,
     val proprice: String,
     val proquan: String,
     val img1: String,
@@ -210,4 +211,9 @@ data class ShowWishList(
     val img3: String,
     val img4: String,
     val booked_status: String
+)
+
+data class CloseWishList(
+    val error: Boolean,
+    val message: String
 )

@@ -8,10 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
+    <color name="red">#DA2329</color>
     <color name="dashLine">#b0a996</color>
     <color name="backgroundCommon">#fbf8f1</color>
     <color name="theme">#00a29b</color>
     <color name="textColor">#474644</color>
     <color name="textHint">#9a9994</color>
     <color name="green">#269A0F</color>
+    <color name="gray">#e7e7e7</color>
 </resources>

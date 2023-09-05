@@ -13,6 +13,7 @@ import com.sgs.manthara.jewelRetrofit.NewJewellArrival
 class NewArrivalsJewelAdapter(val context: Context) :
     RecyclerView.Adapter<NewArrivalsJewelAdapter.JewellOffersViewHolder>() {
     var dashboardListener: ((locationModel: NewJewellArrival) -> Unit)? = null
+    var checkListener: ((locationModel: NewJewellArrival) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -45,6 +46,9 @@ class NewArrivalsJewelAdapter(val context: Context) :
             Glide.with(context).load(final).into(binding.ivIcon)
             binding.tvName.text = view.proname
             binding.tvPrice.text = view.proprice
+
+            binding.ivWish.isChecked = view.wishlist_status == "1"
+
         }
 
         init {
@@ -65,7 +69,7 @@ class NewArrivalsJewelAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        dashboardListener?.invoke(differ.currentList[position])
+                        checkListener?.invoke(differ.currentList[position])
 
                     } catch (e: NullPointerException) {
                         e.printStackTrace()

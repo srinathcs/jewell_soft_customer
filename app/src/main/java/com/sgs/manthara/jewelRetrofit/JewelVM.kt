@@ -1,5 +1,8 @@
 package com.sgs.manthara.jewelRetrofit
 
+import android.content.ClipData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -398,11 +401,11 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         ln: String,
         lt: String,
         uid: String,
-        proCat:String
+        proCat: String
     ) = viewModelScope.launch {
         try {
             val response = jewelSoftRepo.newJewelArrival(
-                type, cid, deviceId, ln, lt, uid,proCat
+                type, cid, deviceId, ln, lt, uid, proCat
             )
             newJewellArrival.value = Resources.Success(response)
         } catch (e: Exception) {
@@ -470,12 +473,12 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         ln: String,
         lt: String,
         uid: String,
-        id:String
+        id: String
 
-        ) = viewModelScope.launch {
+    ) = viewModelScope.launch {
         try {
             val response = jewelSoftRepo.preBook(
-                type, cid, deviceId, ln, lt, uid,id
+                type, cid, deviceId, ln, lt, uid, id
             )
             preBook.value = Resources.Success(response)
         } catch (e: Exception) {
@@ -512,6 +515,7 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         MutableStateFlow<Resources<List<NewJewellArrival>>>(Resources.Loading())
     val newTextilesArrivalFlow: StateFlow<Resources<List<NewJewellArrival>>>
         get() = newTextilesArrival
+
     suspend fun newTextilesArrival(
         type: String,
         cid: String,
@@ -519,11 +523,11 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         ln: String,
         lt: String,
         uid: String,
-        proCat:String
+        proCat: String
     ) = viewModelScope.launch {
         try {
             val response = jewelSoftRepo.newJewelArrival(
-                type, cid, deviceId, ln, lt, uid,proCat
+                type, cid, deviceId, ln, lt, uid, proCat
             )
             newTextilesArrival.value = Resources.Success(response)
         } catch (e: Exception) {
@@ -559,6 +563,7 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         MutableStateFlow<Resources<List<OfferJewell>>>(Resources.Loading())
     val offerJewellFlow: StateFlow<Resources<List<OfferJewell>>>
         get() = offerJewell
+
     suspend fun offerJewell(
         type: String,
         cid: String,
@@ -582,6 +587,7 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         MutableStateFlow<Resources<List<OfferJewell>>>(Resources.Loading())
     val offerTextileFlow: StateFlow<Resources<List<OfferJewell>>>
         get() = offerTextile
+
     suspend fun offerTextile(
         type: String,
         cid: String,
@@ -606,6 +612,7 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         MutableStateFlow<Resources<WishlistAdd>>(Resources.Loading())
     val wishListFlow: StateFlow<Resources<WishlistAdd>>
         get() = wishList
+
     suspend fun wishList(
         type: String,
         cid: String,
@@ -629,6 +636,7 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         MutableStateFlow<Resources<List<ShowWishList>>>(Resources.Loading())
     val showWishListFlow: StateFlow<Resources<List<ShowWishList>>>
         get() = showWishList
+
     suspend fun showWishList(
         type: String,
         cid: String,
@@ -646,4 +654,51 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
             showWishList.value = Resources.Error(e.message.toString())
         }
     }
+
+    private val closeWishList = MutableStateFlow<Resources<CloseWishList>>(Resources.Loading())
+    val closeWishListFlow: StateFlow<Resources<CloseWishList>>
+        get() = closeWishList
+
+    suspend fun closeWishList(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String
+    ) {
+        try {
+            val response = jewelSoftRepo.closeWishList(type, cid, deviceId, ln, lt, uid, id)
+            closeWishList.value = Resources.Success(response)
+        } catch (e: Exception) {
+            closeWishList.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val booked = MutableStateFlow<Resources<CloseWishList>>(Resources.Loading())
+    val bookedFlow: StateFlow<Resources<CloseWishList>>
+        get() = booked
+
+    suspend fun booked(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proId: String,
+        proName: String,
+        lId: String,
+        price: String
+    ) {
+        try {
+            val response =
+                jewelSoftRepo.booked(type, cid, deviceId, ln, lt, uid, proId, proName, lId, price)
+            booked.value = Resources.Success(response)
+        } catch (e: Exception) {
+            booked.value = Resources.Error(e.message.toString())
+        }
+    }
+
 }

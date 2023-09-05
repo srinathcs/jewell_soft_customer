@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.first
 class WishListFragment : Fragment() {
     private lateinit var binding: FragmentWishListBinding
     private lateinit var myAdapter: WishListAdapter
+    private var id = ""
     private val jewelSoftVM: JewelVM by lazy {
         val repos = JewelRepo()
         val factory = JewelFactory(repos)
@@ -45,13 +47,15 @@ class WishListFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
         }
         showWishList()
+
         return binding.root
     }
 
     private fun showWishList() {
         lifecycleScope.launchWhenStarted {
             val deviceId = Settings.Secure.getString(
-                requireContext().contentResolver, Settings.Secure.ANDROID_ID
+                requireContext().contentResolver,
+                Settings.Secure.ANDROID_ID
             )
             jewelSoftVM.showWishList(
                 "29",
@@ -87,9 +91,57 @@ class WishListFragment : Fragment() {
                         myAdapter.dashboardListener = {
                             val bundle = Bundle()
                             bundle.putString("productId", it.id)
+                            id = it.id
                             Navigation.findNavController(requireView())
                                 .navigate(R.id.perBookFragment, bundle)
+
                         }
+
+                        myAdapter.closeListener = {
+                            id = it.id
+                            closeWishList()
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun closeWishList() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId = Settings.Secure.getString(
+                requireContext().contentResolver, Settings.Secure.ANDROID_ID
+            )
+            jewelSoftVM.closeWishList(
+                "30",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                id
+            )
+        }
+        closeListRespones()
+    }
+
+    private fun closeListRespones() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.closeWishListFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "wishListRespones:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "closeWishListRespones:${it.data} ")
+                        Toast.makeText(requireContext(), "Delete Successfully", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }

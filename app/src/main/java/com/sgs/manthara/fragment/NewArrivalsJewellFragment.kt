@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -21,7 +22,6 @@ import com.sgs.manthara.jewelRetrofit.JewelVM
 import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 
 class NewArrivalsJewellFragment : Fragment() {
@@ -31,6 +31,7 @@ class NewArrivalsJewellFragment : Fragment() {
         val factory = JewelFactory(repos)
         ViewModelProvider(this, factory)[JewelVM::class.java]
     }
+
     private lateinit var mainPreference: MainPreference
     private lateinit var myadapter: NewArrivalsJewelAdapter
     private var lt = ""
@@ -150,11 +151,18 @@ class NewArrivalsJewellFragment : Fragment() {
                         myadapter.differ.submitList(it.data)
                         wishList()
                         myadapter.dashboardListener = {
+                            id = it.id
                             val bundle = Bundle()
                             bundle.putString("id", it.id)
-                            id = it.id
                             Navigation.findNavController(requireView())
                                 .navigate(R.id.addPreBookFragment, bundle)
+                        }
+
+                        myadapter.checkListener = {
+                            id = it.id
+                            wishList()
+                            Toast.makeText(requireContext(), "Add to wishlist", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }
@@ -195,7 +203,7 @@ class NewArrivalsJewellFragment : Fragment() {
                     }
 
                     is Resources.Success -> {
-                        Log.i("TAG", "wishListRespones:${it.data} ")
+                        Log.i("TAG", "wishListRespones:${it.data}")
 
                     }
                 }

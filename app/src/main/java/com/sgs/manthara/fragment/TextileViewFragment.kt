@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.sgs.manthara.R
 import com.sgs.manthara.adapter.ProductImageViewer
@@ -54,7 +56,59 @@ class TextileViewFragment : Fragment() {
 
         Log.i("TAG", "onCreateView:${idTextile} ")
         viewTextileItem()
+        binding.btnAdd.setOnClickListener {
+            addPerBook()
+        }
         return binding.root
+    }
+
+    private fun addPerBook() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId =
+                Settings.Secure.getString(
+                    requireContext().contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+            jewelSoftVM.preBook(
+                "24",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                idTextile
+            )
+        }
+        addPerBookResponse()
+    }
+
+    private fun addPerBookResponse() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.preBookFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "addPerBookError: ${it.message}")
+
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "addPerBook: ${it.data}")
+                        if (it.data!!.error == false) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Add On Orders",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            findNavController().navigate(R.id.tickFragment)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("HardwareIds")
@@ -100,7 +154,6 @@ class TextileViewFragment : Fragment() {
 
                         val dotsIndicator = binding.dotsIndicator
                         dotsIndicator.attachTo(viewPager)
-
                         binding.tvGrams.text = it.data.`0`.proquan
                         binding.tvNeck.text = it.data.`0`.proname
                         binding.tvPrice.text = it.data.`0`.proprice

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -34,6 +35,7 @@ class TextileFragment : Fragment() {
     private lateinit var myadapter: TextileAdapter
     private var lt = ""
     private var ln = ""
+    private var id = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,6 +107,53 @@ class TextileFragment : Fragment() {
                                 .navigate(R.id.textileViewFragment, bundle)
                             Log.i("TAG", "newJewellArrival:${it.id} ")
                         }
+                        myadapter.wishListener = {
+                            id = it.id
+                            wishList()
+                            Toast.makeText(requireContext(), "Add to wishlist", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun wishList() {
+        val deviceId =
+            Settings.Secure.getString(
+                requireContext().contentResolver,
+                Settings.Secure.ANDROID_ID
+            )
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.wishList(
+                "28",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                id
+            )
+        }
+        wishListRespones()
+    }
+
+    private fun wishListRespones() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.wishListFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "wishListRespones:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "wishListRespones:${it.data}")
+
                     }
                 }
             }

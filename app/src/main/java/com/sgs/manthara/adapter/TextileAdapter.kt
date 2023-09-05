@@ -10,8 +10,10 @@ import com.bumptech.glide.Glide
 import com.sgs.manthara.databinding.JewellOfferViewBinding
 import com.sgs.manthara.jewelRetrofit.NewJewellArrival
 
-class TextileAdapter(val context: Context) : RecyclerView.Adapter<TextileAdapter.JewellOffersViewHolder>() {
+class TextileAdapter(val context: Context) :
+    RecyclerView.Adapter<TextileAdapter.JewellOffersViewHolder>() {
     var dashboardListener: ((locationModel: NewJewellArrival) -> Unit)? = null
+    var wishListener: ((locationModel: NewJewellArrival) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -44,6 +46,8 @@ class TextileAdapter(val context: Context) : RecyclerView.Adapter<TextileAdapter
             Glide.with(context).load(final).into(binding.ivIcon)
             binding.tvName.text = view.proname
             binding.tvPrice.text = view.proprice
+
+            binding.ivWish.isChecked = view.wishlist_status == "1"
         }
 
         init {
@@ -60,6 +64,17 @@ class TextileAdapter(val context: Context) : RecyclerView.Adapter<TextileAdapter
                 }
             }
 
+            binding.ivWish.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    try {
+                        wishListener?.invoke(differ.currentList[position])
+
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
         }
     }
 

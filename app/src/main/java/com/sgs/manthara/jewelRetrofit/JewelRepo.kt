@@ -133,18 +133,30 @@ class JewelRepo {
     ) = JewelSoftRetro.api.jewellType(type, cid, deviceId, ln, lt, uid, category)
 
     suspend fun getImage(
-        type:RequestBody,
-        cid:RequestBody,
-        ln:RequestBody,
-        lt:RequestBody,
+        type: RequestBody,
+        cid: RequestBody,
+        ln: RequestBody,
+        lt: RequestBody,
         device: RequestBody,
-        uid:RequestBody,
+        uid: RequestBody,
         count: RequestBody,
-        jewelType:RequestBody,
-        gram:RequestBody,
-        description:RequestBody,
+        jewelType: RequestBody,
+        gram: RequestBody,
+        description: RequestBody,
         pro_img: MutableList<MultipartBody.Part>,
-        )=JewelSoftRetro.api.addCustomDesign(type,cid,ln,lt,device,uid,count, jewelType, gram, description, pro_img)
+    ) = JewelSoftRetro.api.addCustomDesign(
+        type,
+        cid,
+        ln,
+        lt,
+        device,
+        uid,
+        count,
+        jewelType,
+        gram,
+        description,
+        pro_img
+    )
 
     suspend fun paidAmount(
         type: String,
@@ -162,8 +174,8 @@ class JewelRepo {
         ln: String,
         lt: String,
         uid: String,
-        proCat:String
-    ) = JewelSoftRetro.api.newJewelArrival(type, cid, deviceId, ln, lt, uid,proCat)
+        proCat: String
+    ) = JewelSoftRetro.api.newJewelArrival(type, cid, deviceId, ln, lt, uid, proCat)
 
     suspend fun selectedJewel(
         type: String,
@@ -173,7 +185,7 @@ class JewelRepo {
         lt: String,
         uid: String,
         id: String,
-    ) = JewelSoftRetro.api.selectedJewel(type, cid, deviceId, ln, lt, uid,id)
+    ) = JewelSoftRetro.api.selectedJewel(type, cid, deviceId, ln, lt, uid, id)
 
     suspend fun totalWeight(
         type: String,
@@ -192,7 +204,7 @@ class JewelRepo {
         lt: String,
         uid: String,
         id: String,
-    ) = JewelSoftRetro.api.preBook(type, cid, deviceId, ln, lt, uid,id)
+    ) = JewelSoftRetro.api.preBook(type, cid, deviceId, ln, lt, uid, id)
 
     suspend fun showPerBook(
         type: String,
@@ -211,7 +223,7 @@ class JewelRepo {
         lt: String,
         uid: String,
         id: String
-    ) = JewelSoftRetro.api.selectedTextile(type, cid, deviceId, ln, lt, uid,id)
+    ) = JewelSoftRetro.api.selectedTextile(type, cid, deviceId, ln, lt, uid, id)
 
     suspend fun offerJewell(
         type: String,
@@ -221,7 +233,7 @@ class JewelRepo {
         lt: String,
         uid: String,
         proCat: String
-    ) = JewelSoftRetro.api.offerJewel(type, cid, deviceId, ln, lt, uid,proCat)
+    ) = JewelSoftRetro.api.offerJewel(type, cid, deviceId, ln, lt, uid, proCat)
 
     suspend fun wishList(
         type: String,
@@ -231,7 +243,7 @@ class JewelRepo {
         lt: String,
         uid: String,
         id: String
-    ) = JewelSoftRetro.api.wishList(type, cid, deviceId, ln, lt, uid,id)
+    ) = JewelSoftRetro.api.wishList(type, cid, deviceId, ln, lt, uid, id)
 
     suspend fun showWishList(
         type: String,
@@ -241,4 +253,27 @@ class JewelRepo {
         lt: String,
         uid: String
     ) = JewelSoftRetro.api.showWishList(type, cid, deviceId, ln, lt, uid)
+
+    suspend fun closeWishList(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String
+    ) = JewelSoftRetro.api.closeWishList(type, cid, deviceId, ln, lt, uid, id)
+
+    suspend fun booked(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        proId: String,
+        proName: String,
+        lId: String,
+        price:String
+    ) = JewelSoftRetro.api.booked(type, cid, deviceId, ln, lt, uid, proId, proName, lId,price)
 }

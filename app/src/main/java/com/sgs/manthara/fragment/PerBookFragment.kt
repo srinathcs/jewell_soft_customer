@@ -22,6 +22,7 @@ import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
 import kotlinx.coroutines.flow.first
+import java.lang.Exception
 
 class PerBookFragment : Fragment() {
     private lateinit var binding: FragmentPerBookBinding
@@ -35,6 +36,10 @@ class PerBookFragment : Fragment() {
     private var productId = ""
     private var lt = ""
     private var ln = ""
+    private var id = ""
+    private var bookId = ""
+    private var bookName = ""
+    private var bookPrice = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +47,14 @@ class PerBookFragment : Fragment() {
     ): View {
         binding = FragmentPerBookBinding.inflate(inflater, container, false)
         mainPreference = MainPreference(requireContext())
-        productId = requireArguments().getString("productId")!!
+
+        try {
+            productId = requireArguments().getString("productId")!!
+            Log.i("TAG", "productId:${productId}")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         FusedLocationService.latitudeFlow.observe(requireActivity()) {
             lt = it.latitude.toString()
             ln = it.longitude.toString()
@@ -61,10 +73,7 @@ class PerBookFragment : Fragment() {
     private fun wishToOrder() {
         lifecycleScope.launchWhenStarted {
             val deviceId =
-                Settings.Secure.getString(
-                    requireContext().contentResolver,
-                    Settings.Secure.ANDROID_ID
-                )
+                Settings.Secure.getString(requireContext().contentResolver, Settings.Secure.ANDROID_ID)
             jewelSoftVM.preBook(
                 "24",
                 mainPreference.getCid().first(),
@@ -94,18 +103,18 @@ class PerBookFragment : Fragment() {
                     is Resources.Success -> {
                         Log.i("TAG", "addPerBook: ${it.data}")
                         if (it.data!!.error == false) {
-                            Toast.makeText(
+                            /*Toast.makeText(
                                 requireContext(),
                                 "Add On Orders",
                                 Toast.LENGTH_SHORT
-                            ).show()
-                            findNavController().navigate(R.id.tickFragment)
+                            ).show()*/
                         }
                     }
                 }
             }
         }
     }
+
     private fun perBook() {
         lifecycleScope.launchWhenStarted {
             val deviceId =
@@ -121,7 +130,6 @@ class PerBookFragment : Fragment() {
                 lt,
                 mainPreference.getUserId().first()
             )
-            Log.i("TAG", "perBook:${mainPreference.getUserId().first()} ")
         }
         perBookResponse()
     }
@@ -141,10 +149,106 @@ class PerBookFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "perBookResponse: ${it.data}")
+
                         myadapter = PerBookAdapter(requireContext())
                         binding.rvView.adapter = myadapter
                         binding.rvView.layoutManager = LinearLayoutManager(requireContext())
                         myadapter.differ.submitList(it.data)
+
+                        myadapter.closeListener = {
+                            id = it.id
+                            closePerBookList()
+                        }
+                        myadapter.bookedListener = {
+                            bookId = it.id
+                            bookName = it.proname
+                            bookPrice = it.proprice
+                            booked()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun closePerBookList() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId = Settings.Secure.getString(
+                requireContext().contentResolver, Settings.Secure.ANDROID_ID
+            )
+            jewelSoftVM.closeWishList(
+                "31",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                id
+            )
+        }
+        closeListRespones()
+    }
+
+    private fun closeListRespones() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.closeWishListFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "wishListRespones:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "closeWishListRespones:${it.data} ")
+                        Toast.makeText(requireContext(), "Delete Successfully", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun booked() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId = Settings.Secure.getString(
+                requireContext().contentResolver, Settings.Secure.ANDROID_ID
+            )
+            jewelSoftVM.booked(
+                "32",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                bookId,
+                bookName,
+                mainPreference.getLedger().first(),
+                bookPrice
+            )
+        }
+        bookedResponse()
+    }
+
+    private fun bookedResponse() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.bookedFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "bookedErrorRespones:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "bookedRespones:${it.data} ")
+                        Toast.makeText(requireContext(), "Booked Successfully", Toast.LENGTH_SHORT)
+                            .show()
+                        findNavController().navigate(R.id.tickFragment)
                     }
                 }
             }

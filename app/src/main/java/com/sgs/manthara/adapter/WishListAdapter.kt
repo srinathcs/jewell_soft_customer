@@ -13,6 +13,7 @@ import com.sgs.manthara.jewelRetrofit.ShowWishList
 class WishListAdapter(val context: Context) :
     RecyclerView.Adapter<WishListAdapter.WishListViewHolder>() {
     var dashboardListener: ((locationModel: ShowWishList) -> Unit)? = null
+    var closeListener: ((locationModel: ShowWishList) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -53,6 +54,17 @@ class WishListAdapter(val context: Context) :
                     try {
                         dashboardListener?.invoke(differ.currentList[position])
 
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            binding.ivClose.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    try {
+                        closeListener?.invoke(differ.currentList[position])
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
                     }

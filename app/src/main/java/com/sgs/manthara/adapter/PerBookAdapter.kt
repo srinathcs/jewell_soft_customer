@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sgs.manthara.databinding.PerBookViewBinding
 import com.sgs.manthara.jewelRetrofit.ShowPerBook
-import com.sgs.manthara.jewelRetrofit.TotalWeight
 
 class PerBookAdapter(val context: Context) :
     RecyclerView.Adapter<PerBookAdapter.PayBookViewHolder>() {
     var dashboardListener: ((locationModel: ShowPerBook) -> Unit)? = null
+    var closeListener: ((locationModel: ShowPerBook) -> Unit)? = null
+    var bookedListener: ((locationModel: ShowPerBook) -> Unit)? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -31,7 +33,6 @@ class PerBookAdapter(val context: Context) :
         try {
             val statusModel = differ.currentList[position]
             holder.setView(statusModel)
-            // Update tvItem with the position
             holder.binding.tvItem.text = "Item : ${(position + 1).toString()}"
         } catch (e: NullPointerException) {
             e.printStackTrace()
@@ -41,7 +42,6 @@ class PerBookAdapter(val context: Context) :
 
     inner class PayBookViewHolder(var binding: PerBookViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun setView(view: ShowPerBook) {
             binding.tvModel.text = "Name : ${view.proname}"
             binding.tvPrice.text = "Price : ${view.proprice}"
@@ -58,6 +58,28 @@ class PerBookAdapter(val context: Context) :
                     try {
                         dashboardListener?.invoke(differ.currentList[position])
 
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            binding.ivClose.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    try {
+                        closeListener?.invoke(differ.currentList[position])
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            binding.btnBookNow.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    try {
+                        bookedListener?.invoke(differ.currentList[position])
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
                     }

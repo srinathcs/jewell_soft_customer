@@ -1,6 +1,5 @@
 package com.sgs.manthara.jewelRetrofit
 
-import android.telephony.mbms.MbmsErrors.StreamingErrors
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field
@@ -272,4 +271,31 @@ interface JewelInterface {
         @Field("lt") lt: String,
         @Field("uid") uid: String,
     ): List<ShowWishList>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun closeWishList(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("id") id: String,
+    ): CloseWishList
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun booked(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("proid") proId: String,
+        @Field("proname") proName: String,
+        @Field("lid") lID: String,
+        @Field("price") price: String,
+    ): CloseWishList
 }

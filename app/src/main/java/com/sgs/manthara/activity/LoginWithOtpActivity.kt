@@ -22,6 +22,7 @@ import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
 import com.sgs.manthara.new_otp.AppSignatureHashHelper
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 
 class LoginWithOtpActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMobileBinding
@@ -114,6 +115,7 @@ class LoginWithOtpActivity : AppCompatActivity() {
                                 intent =
                                     Intent(this@LoginWithOtpActivity, OtpActivity::class.java)
                                 startActivity(intent)
+
                             }
                         } else {
                             Toast.makeText(

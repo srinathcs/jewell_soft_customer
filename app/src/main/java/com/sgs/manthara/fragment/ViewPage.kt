@@ -48,6 +48,7 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
         silverRate()
         diamondRate()
         platinumRate()
+
         FusedLocationService.latitudeFlow.observe(requireActivity()) {
             lt = it.latitude.toString()
             ln = it.longitude.toString()
@@ -215,6 +216,7 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
                         val i = it.data
                         binding.tvSilver.text = i!!.rate
                         Log.i("TAG", "goldToday:${it.data} ")
+                        //Log.i("TAG", "numberSuccess:${mainPreference.getLedger().first()} ")
                     }
                 }
             }
