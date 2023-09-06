@@ -67,6 +67,11 @@ class PerBookFragment : Fragment() {
         binding.btnSubmit.setOnClickListener {
             findNavController().navigate(R.id.newDesginReqFragment)
         }
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
+        }
+
         return binding.root
     }
 

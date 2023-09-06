@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -51,8 +52,19 @@ class TextileFragment : Fragment() {
 
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (childFragmentManager.backStackEntryCount > 0) {
+                childFragmentManager.popBackStack()
+            } else {
+                findNavController().navigateUp()
+            }
+        }
+
         binding.tvJewell.setOnClickListener {
             findNavController().navigate(R.id.newArrivalsJewellFragment)
+        }
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
         }
         binding.vView2.visibility = View.GONE
         binding.vView.visibility = View.VISIBLE

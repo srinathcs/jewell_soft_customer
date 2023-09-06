@@ -26,12 +26,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.sgs.manthara.R
 import com.sgs.manthara.databinding.FragmentNewDesginReqBinding
@@ -43,6 +41,7 @@ import com.sgs.manthara.jewelRetrofit.JewelVM
 import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -131,6 +130,12 @@ class NewDesignReqFragment : Fragment() {
         binding.btnSubmit.setOnClickListener {
             imgSend()
         }
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
+        }
+
+
         return binding.root
     }
 
@@ -539,20 +544,23 @@ class NewDesignReqFragment : Fragment() {
             jewelSoftVM.addImageFlow.collect {
                 when (it) {
                     is Resources.Loading -> {
-                        //binding.progress.visibility = View.VISIBLE
-                        //binding.save.visibility = View.GONE
+                        binding.progress.visibility = View.VISIBLE
+                        binding.btnSubmit.visibility = View.GONE
                         Log.i("TAG", "sendLoadingImage:${it.message}")
                     }
 
                     is Resources.Error -> {
-                        //binding.progress.visibility = View.GONE
-                        //binding.save.visibility = View.VISIBLE
+                        binding.progress.visibility = View.VISIBLE
+                        binding.btnSubmit.visibility = View.GONE
+                        delay(1000)
+                        binding.progress.visibility = View.GONE
+                        binding.btnSubmit.visibility = View.VISIBLE
                         Log.i("TAG", "sendErrorImage:${it.message}")
                     }
 
                     is Resources.Success -> {
-                        //binding.progress.visibility = View.GONE
-                        //binding.save.visibility = View.VISIBLE
+                        binding.progress.visibility = View.GONE
+                        binding.btnSubmit.visibility = View.VISIBLE
                         Log.i("TAG", "sendSuccessImage:${it.data}")
                         var msg = ""
                         for (i in it.data!!) {

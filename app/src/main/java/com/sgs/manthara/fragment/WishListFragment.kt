@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgs.manthara.R
 import com.sgs.manthara.adapter.WishListAdapter
@@ -47,6 +48,10 @@ class WishListFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
         }
         showWishList()
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
+        }
 
         return binding.root
     }

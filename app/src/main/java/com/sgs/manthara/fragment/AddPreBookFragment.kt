@@ -56,6 +56,9 @@ class AddPreBookFragment : Fragment() {
         binding.btnAdd.setOnClickListener {
             addPerBook()
         }
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
+        }
 
         viewItem()
 

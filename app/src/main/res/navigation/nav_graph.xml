@@ -120,5 +120,13 @@
         android:name="com.sgs.manthara.logout.LogoutFragment"
         android:label="Logout"
         tools:layout="@layout/logout_fragment" />
+    <fragment
+        android:id="@+id/offerPerBookFragment"
+        android:name="com.sgs.manthara.fragment.OfferPerBookFragment"
+        android:label="OfferPerBookFragment" />
+    <fragment
+        android:id="@+id/jewelOfferPerBookFragment"
+        android:name="com.sgs.manthara.fragment.JewelOfferPerBookFragment"
+        android:label="JewelOfferPerBookFragment" />
 
 </navigation>

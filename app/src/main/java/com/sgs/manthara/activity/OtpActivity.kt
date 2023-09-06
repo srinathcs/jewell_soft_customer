@@ -1,6 +1,7 @@
 package com.sgs.manthara.activity
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Paint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -9,11 +10,13 @@ import android.os.CountDownTimer
 import android.provider.Settings
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.sgs.manthara.R
 import com.sgs.manthara.databinding.ActivityOtpBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -23,6 +26,10 @@ import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
 import com.sgs.manthara.new_otp.AppSignatureHashHelper
+import com.sgs.manthara.new_otp.CheckJava
+import com.sgs.manthara.new_otp.NewReceiver
+import com.sgs.manthara.new_otp.SmsBroadcastReceiver
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 
 class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
@@ -35,6 +42,9 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
     private val resendDelayMillis: Long = 30000
     private var lt = ""
     private var ln = ""
+    private val REQUEST_USER_CONSENT = 200
+    private lateinit var newReceiver: NewReceiver
+    private var smsBroadcastReceiverr: SmsBroadcastReceiver? = null
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +60,7 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
         appSignatureHashHelper = AppSignatureHashHelper(this@OtpActivity)
         val repo = JewelRepo()
         val factory = JewelFactory(repo)
+        newReceiver = NewReceiver()
         otpViewModel = ViewModelProvider(this, factory)[JewelVM::class.java]
         mainPreference = MainPreference(this@OtpActivity)
         FusedLocationService.latitudeFlow.observe(this@OtpActivity) {
@@ -65,9 +76,81 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
                 startResendTimer()
             }
         }
+        val otpFields = listOf(
+            binding.et1, binding.et2, binding.et3,
+            binding.et4, binding.et5, binding.et6
+        )
+
+        otpFields.forEachIndexed { index, editText ->
+            editText.doOnTextChanged { text, _, _, _ ->
+                if (text?.length == 1) {
+                    if (index == otpFields.size - 1 && allOtpFieldsFilled()) {
+                        binding.btnSign.setBackgroundResource(R.drawable.otp)
+                        binding.btnSign.isEnabled = true
+                    }
+                } else {
+                    binding.btnSign.setBackgroundResource(R.drawable.ic_background)
+                    binding.btnSign.isEnabled = false
+                }
+            }
+        }
+        startSmartUserConsent()
+        CheckJava.StartSmsListners(this)
+        val l1 = object : NewReceiver.OTPReceiveListener {
+            override fun onOTPReceived(otp: String?) {
+                Log.e("otptag", otp!!)
+            }
+
+            override fun onOTPTimeOut() {
+
+            }
+
+        }
+        newReceiver.InjectListner(l1)
+        this.registerReceiver(newReceiver, IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION))
 
         binding.btnSign.paintFlags =
             binding.btnSign.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+    }
+
+
+    private fun allOtpFieldsFilled(): Boolean {
+        val otpFields = listOf(
+            binding.et1, binding.et2, binding.et3,
+            binding.et4, binding.et5, binding.et6
+        )
+
+        return otpFields.all { it.text.isNotEmpty() }
+    }
+
+    private fun startSmartUserConsent() {
+
+        val client = SmsRetriever.getClient(this)
+        client.startSmsUserConsent(null)
+        client.startSmsUserConsent(null)
+    }
+
+    private fun registerBroadcastReceiver() {
+
+        smsBroadcastReceiverr = SmsBroadcastReceiver()
+        smsBroadcastReceiverr!!.smsBroadcastReceiverListener =
+            object : SmsBroadcastReceiver.SMSBroadcastReceiverListener {
+                override fun onSuccess(intent: Intent?) {
+
+                    if (intent != null) {
+                        startActivityForResult(intent, REQUEST_USER_CONSENT)
+                    }
+                }
+
+                override fun onFailure() {
+
+                }
+
+            }
+
+        val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+        this.registerReceiver(smsBroadcastReceiverr, intentFilter)
+
     }
 
     private fun validateField() {
@@ -181,10 +264,14 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
                 when (it) {
                     is Resources.Loading -> {
                         Log.i("TAG", "verify1: ${it.data}")
+                        binding.progress.visibility = View.VISIBLE
+                        binding.btnSign.visibility = View.GONE
                     }
 
                     is Resources.Success -> {
                         Log.e("TAG", "verifyOTP: ${it.data}")
+                        binding.progress.visibility = View.GONE
+                        binding.btnSign.visibility = View.VISIBLE
                         if (it.data!!.error == false) {
 
                             mainPreference.saveLogin(true)
@@ -197,7 +284,11 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
                     }
 
                     is Resources.Error -> {
-
+                        binding.progress.visibility = View.VISIBLE
+                        binding.btnSign.visibility = View.GONE
+                        delay(1000)
+                        binding.progress.visibility = View.GONE
+                        binding.btnSign.visibility = View.VISIBLE
                         Log.i("TAG", "verify: ${it.message}")
                         Toast.makeText(this@OtpActivity, "Enter valid OTP", Toast.LENGTH_SHORT)
                             .show()
@@ -227,4 +318,15 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
         super.onDestroy()
         resendTimer?.cancel()
     }
+
+    override fun onStart() {
+        super.onStart()
+        registerBroadcastReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        this.unregisterReceiver(smsBroadcastReceiverr)
+    }
+
 }

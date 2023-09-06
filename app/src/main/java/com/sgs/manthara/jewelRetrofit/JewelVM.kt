@@ -1,8 +1,5 @@
 package com.sgs.manthara.jewelRetrofit
 
-import android.content.ClipData
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,12 +61,12 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         deviceId: String,
         ln: String,
         lt: String,
-        uid: String
-
+        uid: String,
+        schType:String,
     ) = viewModelScope.launch {
         try {
             val response =
-                jewelSoftRepo.schemeType(type, cid, deviceId, ln, lt, uid)
+                jewelSoftRepo.schemeType(type, cid, deviceId, ln, lt, uid,schType)
             schemeType.value = Resources.Success(response)
         } catch (exception: Exception) {
             schemeType.value = Resources.Error(exception.message.toString())

@@ -10,25 +10,63 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:paddingBottom="30dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvParent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ccLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/theme">
+
+                <ImageView
+                    android:id="@+id/ibView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_back_menu"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Back"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ibView"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/poppins_regular"
             android:text="Join New Scheme"
             android:textColor="@color/theme"
+            android:layout_marginTop="10dp"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/cvParent" />
 
         <TextView
             android:id="@+id/tvDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +85,7 @@
                 android:id="@+id/atvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -67,8 +106,9 @@
                 android:id="@+id/atvSchmeType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="15dp"
+                android:layout_marginHorizontal="15dp"
                 android:focusable="false"
+                android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:textSize="16sp" />
@@ -88,6 +128,7 @@
                 android:id="@+id/atvSDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -109,6 +150,7 @@
                 android:id="@+id/atvEDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -129,6 +171,7 @@
                 android:id="@+id/atvEMI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -149,6 +192,7 @@
                 android:id="@+id/atvFreeEMI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -169,6 +213,7 @@
                 android:id="@+id/atvPurity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -189,6 +234,7 @@
                 android:id="@+id/atvAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -209,6 +255,7 @@
                 android:id="@+id/atvTotalAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -229,6 +276,7 @@
                 android:id="@+id/atvRemark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -241,6 +289,7 @@
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/button_bg"
             android:fontFamily="@font/poppins_regular"
@@ -248,6 +297,5 @@
             android:textAllCaps="false"
             android:textColorHint="@color/textHint"
             app:layout_constraintTop_toBottomOf="@+id/tilRemark" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

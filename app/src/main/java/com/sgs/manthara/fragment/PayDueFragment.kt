@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sgs.manthara.R
 import com.sgs.manthara.adapter.PayDueAdapter
 import com.sgs.manthara.databinding.FragmentPayDueBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -46,6 +48,11 @@ class PayDueFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
 
         }
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
+        }
+
         return binding.root
     }
 

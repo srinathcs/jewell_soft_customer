@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sgs.manthara.R
 import com.sgs.manthara.databinding.FragmentMySchemesBinding
 import com.sgs.manthara.adapter.MySchemeAdapter
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -48,6 +50,22 @@ class MySchemesFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
 
         }
+        binding.btnJewlle.isEnabled = true
+        binding.btnTextile.isEnabled = true
+
+        binding.btnJewlle.setOnClickListener {
+            binding.btnJewlle.isEnabled = true
+            binding.btnTextile.isEnabled = false
+        }
+
+        binding.btnTextile.setOnClickListener {
+            binding.btnTextile.isEnabled = true
+            binding.btnJewlle.isEnabled = false
+        }
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
+        }
 
         return binding.root
     }
@@ -62,7 +80,8 @@ class MySchemesFragment : Fragment() {
                 deviceId,
                 ln,
                 lt,
-                mainPreference.getUserId().first()
+                mainPreference.getUserId().first(),
+                "1"
             )
         }
         mySheme()

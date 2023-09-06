@@ -12,6 +12,7 @@ import com.sgs.manthara.jewelRetrofit.OfferJewell
 
 class JewellOffersAdapter(val context: Context) : RecyclerView.Adapter<JewellOffersAdapter.JewellOffersViewHolder>() {
     var dashboardListener: ((locationModel: OfferJewell) -> Unit)? = null
+    var wishListener: ((locationModel: OfferJewell) -> Unit)? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -44,6 +45,8 @@ class JewellOffersAdapter(val context: Context) : RecyclerView.Adapter<JewellOff
             Glide.with(context).load(final).into(binding.ivIcon)
             binding.tvName.text = view.proname
             binding.tvPrice.text = view.proprice
+
+            binding.ivWish.isChecked = view.wishlist_status == "1"
         }
 
         init {
@@ -53,6 +56,18 @@ class JewellOffersAdapter(val context: Context) : RecyclerView.Adapter<JewellOff
                 if (position != RecyclerView.NO_POSITION) {
                     try {
                         dashboardListener?.invoke(differ.currentList[position])
+
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            binding.ivWish.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    try {
+                       wishListener?.invoke(differ.currentList[position])
 
                     } catch (e: NullPointerException) {
                         e.printStackTrace()

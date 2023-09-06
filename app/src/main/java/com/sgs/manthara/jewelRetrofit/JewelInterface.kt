@@ -43,6 +43,7 @@ interface JewelInterface {
         @Field("ln") ln: String,
         @Field("lt") lt: String,
         @Field("uid") ledId: String,
+        @Field("scheme_type") schType: String,
     ): List<SchemeDetails>
 
     @FormUrlEncoded

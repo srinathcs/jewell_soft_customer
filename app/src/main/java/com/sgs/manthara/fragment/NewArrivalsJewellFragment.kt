@@ -1,5 +1,6 @@
 package com.sgs.manthara.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -8,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sgs.manthara.R
+import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.adapter.NewArrivalsJewelAdapter
 import com.sgs.manthara.databinding.FragmentNewArrivalsJewellBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -51,6 +54,16 @@ class NewArrivalsJewellFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
 
         }
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(int)
+            requireActivity().finish()
+        }
+
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
+        }
+
         binding.tvTextiles.setOnClickListener {
             findNavController().navigate(R.id.textileFragment)
         }

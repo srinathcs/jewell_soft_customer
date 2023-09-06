@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.sgs.manthara.R
 import com.sgs.manthara.adapter.ProductImageViewer
-import com.sgs.manthara.databinding.FragmentTextileViewBinding
+import com.sgs.manthara.databinding.FragmentJewelOfferPerBookBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
 import com.sgs.manthara.jewelRetrofit.JewelRepo
 import com.sgs.manthara.jewelRetrofit.JewelVM
@@ -24,9 +24,8 @@ import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
 import kotlinx.coroutines.flow.first
 
-class TextileViewFragment : Fragment() {
-    private lateinit var binding: FragmentTextileViewBinding
-    private var idTextile = ""
+class JewelOfferPerBookFragment : Fragment() {
+  private lateinit var binding:FragmentJewelOfferPerBookBinding
     private val jewelSoftVM: JewelVM by lazy {
         val repos = JewelRepo()
         val factory = JewelFactory(repos)
@@ -34,14 +33,15 @@ class TextileViewFragment : Fragment() {
     }
     private lateinit var mainPreference: MainPreference
     private lateinit var viewPager: ViewPager2
+    private var id = ""
     private var lt = ""
     private var ln = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentTextileViewBinding.inflate(inflater, container, false)
+    ): View{
+     binding = FragmentJewelOfferPerBookBinding.inflate(inflater,container,false)
         mainPreference = MainPreference(requireContext())
         FusedLocationService.latitudeFlow.observe(requireActivity()) {
             lt = it.latitude.toString()
@@ -50,19 +50,20 @@ class TextileViewFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
 
         }
-        idTextile = requireArguments().getString("idTextile")!!
+        id = requireArguments().getString("id")!!
 
-        Log.i("TAG", "onCreateView:${idTextile} ")
-        viewTextileItem()
         binding.btnAdd.setOnClickListener {
             addPerBook()
         }
+
         binding.ibView.setOnClickListener {
             findNavController().navigate(R.id.viewPage)
         }
+
+        viewItem()
+
         return binding.root
     }
-
     private fun addPerBook() {
         lifecycleScope.launchWhenStarted {
             val deviceId =
@@ -77,7 +78,7 @@ class TextileViewFragment : Fragment() {
                 ln,
                 lt,
                 mainPreference.getUserId().first(),
-                idTextile
+                id
             )
         }
         addPerBookResponse()
@@ -113,21 +114,21 @@ class TextileViewFragment : Fragment() {
     }
 
     @SuppressLint("HardwareIds")
-    private fun viewTextileItem() {
+    private fun viewItem() {
         lifecycleScope.launchWhenStarted {
             val deviceId =
                 Settings.Secure.getString(
                     requireContext().contentResolver,
                     Settings.Secure.ANDROID_ID
                 )
-            jewelSoftVM.selectedTextile(
+            jewelSoftVM.selectedJewel(
                 "22",
                 mainPreference.getCid().first(),
                 deviceId,
                 ln,
                 lt,
                 mainPreference.getUserId().first(),
-                idTextile,
+                id
             )
         }
         viewItemRespones()
@@ -135,7 +136,7 @@ class TextileViewFragment : Fragment() {
 
     private fun viewItemRespones() {
         lifecycleScope.launchWhenStarted {
-            jewelSoftVM.selectedTextileFlow.collect {
+            jewelSoftVM.selectedJewelFlow.collect {
                 when (it) {
                     is Resources.Loading -> {
 
@@ -154,10 +155,14 @@ class TextileViewFragment : Fragment() {
                         viewPager.adapter = adapter
 
                         val dotsIndicator = binding.dotsIndicator
+                        val viewPager = binding.view
+                        viewPager.adapter = adapter
                         dotsIndicator.attachTo(viewPager)
+
                         binding.tvGrams.text = it.data.`0`.proquan
                         binding.tvNeck.text = it.data.`0`.proname
                         binding.tvPrice.text = it.data.`0`.proprice
+
                     }
                 }
             }

@@ -7,9 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.sgs.manthara.R
 import com.sgs.manthara.adapter.JewellOffersAdapter
 import com.sgs.manthara.databinding.FragmentJewellOfferBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -31,6 +35,7 @@ class JewellOfferFragment : Fragment() {
     private lateinit var myadapter: JewellOffersAdapter
     private var lt = ""
     private var ln = ""
+    private var id = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +49,9 @@ class JewellOfferFragment : Fragment() {
             Log.i("TAG", "onCreateL:$lt")
             Log.i("TAG", "onCreateLo:$ln")
 
+        }
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
         }
         jewelOffer()
         return binding.root
@@ -87,9 +95,66 @@ class JewellOfferFragment : Fragment() {
                         binding.rvView.adapter = myadapter
                         binding.rvView.layoutManager = GridLayoutManager(requireContext(), 2)
                         myadapter.differ.submitList(it.data)
+                        wishList()
+                        myadapter.dashboardListener = {
+                            id = it.id
+                            val bundle = Bundle()
+                            bundle.putString("id", it.id)
+                            Navigation.findNavController(requireView())
+                                .navigate(R.id.jewelOfferPerBookFragment, bundle)
+                        }
+
+                        myadapter.wishListener = {
+                            id = it.id
+                            wishList()
+                            Toast.makeText(requireContext(), "Add to wishlist", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 }
             }
         }
     }
+
+    private fun wishList() {
+        val deviceId =
+            Settings.Secure.getString(
+                requireContext().contentResolver,
+                Settings.Secure.ANDROID_ID
+            )
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.wishList(
+                "28",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                id
+            )
+        }
+        wishListRespones()
+    }
+
+    private fun wishListRespones() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.wishListFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "wishListRespones:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "wishListRespones:${it.data}")
+
+                    }
+                }
+            }
+        }
+    }
+
 }

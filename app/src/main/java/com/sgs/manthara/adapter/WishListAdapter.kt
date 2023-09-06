@@ -14,6 +14,7 @@ class WishListAdapter(val context: Context) :
     RecyclerView.Adapter<WishListAdapter.WishListViewHolder>() {
     var dashboardListener: ((locationModel: ShowWishList) -> Unit)? = null
     var closeListener: ((locationModel: ShowWishList) -> Unit)? = null
+    private var selectedPosition = 0
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -64,8 +65,15 @@ class WishListAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        closeListener?.invoke(differ.currentList[position])
-                    } catch (e: NullPointerException) {
+                        if (selectedPosition != position) {
+                            val previousSelectedPosition = selectedPosition
+                            selectedPosition = position
+                            notifyItemChanged(previousSelectedPosition)
+                            notifyItemChanged(selectedPosition)
+                            dashboardListener?.invoke(differ.currentList[selectedPosition])
+                            closeListener?.invoke(differ.currentList[position])
+                        }
+                    }catch (e: NullPointerException) {
                         e.printStackTrace()
                     }
                 }

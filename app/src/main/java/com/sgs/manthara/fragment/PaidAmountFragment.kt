@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sgs.manthara.R
 import com.sgs.manthara.adapter.PaidAmountAdapter
 import com.sgs.manthara.databinding.FragmentPaidAmountBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -44,6 +46,10 @@ class PaidAmountFragment : Fragment() {
             Log.i("TAG", "onCreateL:$lt")
             Log.i("TAG", "onCreateLo:$ln")
 
+        }
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
         }
 
         viewPaidAmount()

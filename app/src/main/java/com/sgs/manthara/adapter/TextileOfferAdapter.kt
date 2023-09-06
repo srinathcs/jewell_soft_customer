@@ -7,15 +7,14 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sgs.manthara.databinding.JewellOfferViewBinding
 import com.sgs.manthara.databinding.TexeileOfferViewBinding
-import com.sgs.manthara.jewelRetrofit.NewJewellArrival
 import com.sgs.manthara.jewelRetrofit.OfferJewell
 
 class TextileOfferAdapter(val context: Context) :
     RecyclerView.Adapter<TextileOfferAdapter.TextileOffersViewHolder>() {
 
     var dashboardListener: ((locationModel: OfferJewell) -> Unit)? = null
+    var checkListener: ((locationModel: OfferJewell) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -49,8 +48,10 @@ class TextileOfferAdapter(val context: Context) :
             Glide.with(context).load(final).into(binding.ivIcon)
             binding.tvName.text = view.proname
             binding.tvPrice.text = view.proprice
-        }
 
+            binding.ivWish.isChecked = view.wishlist_status == "1"
+
+        }
         init {
 
             binding.ivNext.setOnClickListener {
@@ -58,6 +59,17 @@ class TextileOfferAdapter(val context: Context) :
                 if (position != RecyclerView.NO_POSITION) {
                     try {
                         dashboardListener?.invoke(differ.currentList[position])
+
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            binding.ivWish.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    try {
+                        checkListener?.invoke(differ.currentList[position])
 
                     } catch (e: NullPointerException) {
                         e.printStackTrace()

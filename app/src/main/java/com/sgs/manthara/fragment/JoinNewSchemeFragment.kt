@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.sgs.manthara.R
 import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.databinding.FragmentJoinNewSchemeBinding
@@ -31,7 +32,6 @@ import kotlinx.coroutines.flow.first
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import kotlin.math.log
 
 class JoinNewSchemeFragment : Fragment() {
     private lateinit var binding: FragmentJoinNewSchemeBinding
@@ -69,6 +69,10 @@ class JoinNewSchemeFragment : Fragment() {
 
         binding.atvSDate.setOnClickListener {
             showAnniversaryPickerDialog()
+        }
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.viewPage)
         }
 
         val currentDate = Calendar.getInstance()

@@ -1,6 +1,5 @@
 package com.sgs.manthara.jewelRetrofit
 
-
 data class ModelClass(
     val cus_id: String,
     val cus_name: String,
@@ -190,7 +189,8 @@ data class OfferJewell(
     val img1: String,
     val img2: String,
     val img3: String,
-    val img4: String
+    val img4: String,
+    val wishlist_status: String
 )
 
 data class WishlistAdd(

@@ -30,8 +30,9 @@ class JewelRepo {
         deviceId: String,
         ln: String,
         lt: String,
-        uid: String
-    ) = JewelSoftRetro.api.schemeDetails(type, cid, deviceId, ln, lt, uid)
+        uid: String,
+        schType:String
+    ) = JewelSoftRetro.api.schemeDetails(type, cid, deviceId, ln, lt, uid, schType)
 
     suspend fun schemeDetails(
         type: String,
