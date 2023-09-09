@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -54,9 +55,15 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
         validateField()
         startResendTimer()
         setContentView(binding.root)
+        val callback = this@OtpActivity.onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(this@OtpActivity, LoginWithOtpActivity::class.java)
+            startActivity(int)
+            finish()
+        }
         binding.btnSign.setOnClickListener {
             otp()
         }
+
         appSignatureHashHelper = AppSignatureHashHelper(this@OtpActivity)
         val repo = JewelRepo()
         val factory = JewelFactory(repo)
@@ -111,7 +118,9 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
 
         binding.btnSign.paintFlags =
             binding.btnSign.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
     }
+
 
 
     private fun allOtpFieldsFilled(): Boolean {
@@ -209,6 +218,37 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
             )
         }
         verify()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getOtpMessage(message: String?) {
+//        val otpPattern = Pattern.compile("(|^)\\d{6}")
+//        val matcher = otpPattern.matcher(message.toString())
+//        if (matcher.find()) {
+//            binding.etOTP1.setText(matcher.group(0))
+//            binding.etOTP2.setText(matcher.group(1))
+//            binding.etOTP3.setText(matcher.group(2))
+//            binding.etOTP4.setText(matcher.group(3))
+//            binding.etOTP5.setText(matcher.group(4))
+//            binding.etOTP6.setText(matcher.group(5))
+//        }
+
+        val otpRegex = Regex("\\b(\\d{6})\\b") // Matches a sequence of 6 digits
+        val matchResult = message?.let { otpRegex.find(it) }
+        val extractedOtp = matchResult?.groupValues?.get(1) ?: ""
+        val extractedOtp1 = matchResult?.groupValues?.get(2) ?: ""
+        val extractedOtp2 = matchResult?.groupValues?.get(3) ?: ""
+        val extractedOtp3 = matchResult?.groupValues?.get(4) ?: ""
+        val extractedOtp4 = matchResult?.groupValues?.get(5) ?: ""
+        val extractedOtp5 = matchResult?.groupValues?.get(6) ?: ""
+        binding.et1.setText(extractedOtp)
+        binding.et2.setText(extractedOtp1)
+        binding.et3.setText(extractedOtp2)
+        binding.et4.setText(extractedOtp3)
+        binding.et5.setText(extractedOtp4)
+        binding.et6.setText(extractedOtp5)
+
     }
 
 
@@ -327,6 +367,35 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
     override fun onStop() {
         super.onStop()
         this.unregisterReceiver(smsBroadcastReceiverr)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_USER_CONSENT) {
+            if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
+                val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+                // Process the message to extract OTP and fill the OTP fields.
+                fillOtpFieldsFromMessage(message)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun fillOtpFieldsFromMessage(message: String?) {
+        val otpRegex = Regex("\\b(\\d{6})\\b") // Matches a sequence of 6 digits
+        val matchResult = message?.let { otpRegex.find(it) }
+        val extractedOtp = matchResult?.groupValues?.get(1) ?: ""
+
+        // Now fill the OTP fields with the extracted OTP digits
+        if (extractedOtp.length >= 6) {
+            binding.et1.setText(extractedOtp[0].toString())
+            binding.et2.setText(extractedOtp[1].toString())
+            binding.et3.setText(extractedOtp[2].toString())
+            binding.et4.setText(extractedOtp[3].toString())
+            binding.et5.setText(extractedOtp[4].toString())
+            binding.et6.setText(extractedOtp[5].toString())
+        }
     }
 
 }

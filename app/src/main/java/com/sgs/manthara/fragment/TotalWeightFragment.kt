@@ -66,7 +66,7 @@ class TotalWeightFragment : Fragment() {
                 deviceId,
                 ln,
                 lt,
-                "91"
+                mainPreference.getUserId().first()
             )
         }
         totalWeightResponse()

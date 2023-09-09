@@ -2,11 +2,8 @@ package com.sgs.manthara.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.sgs.manthara.R
 import com.sgs.manthara.databinding.FragmentLanguageBinding
 import com.sgs.manthara.utils.SettingPreference
 import com.yariksoffice.lingver.Lingver

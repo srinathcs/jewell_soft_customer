@@ -38,13 +38,23 @@ class SettingsFragment : Fragment() {
         binding.ibView.setOnClickListener {
             findNavController().navigate(R.id.viewPage)
         }
-        binding.llFour.setOnClickListener {
+        binding.llEight.setOnClickListener {
+            findNavController().navigate(R.id.themeFragment)
+        }
 
+        binding.llFour.setOnClickListener {
+            findNavController().navigate(R.id.aboutUsFragment)
+        }
+
+        binding.llFive.setOnClickListener {
+            findNavController().navigate(R.id.feedbackFragment)
+        }
+
+        binding.llSix.setOnClickListener {
+            findNavController().navigate(R.id.helpFragment)
         }
 
         return binding.root
     }
-
-
 
 }

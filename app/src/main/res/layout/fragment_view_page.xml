@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fef7e4">
+    android:background="@color/base_bg">
 
     <LinearLayout
         android:id="@+id/llTop"
@@ -24,8 +24,8 @@
 
         <ImageView
             android:id="@+id/ivSetting"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_marginStart="140dp"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_dot" />
@@ -331,7 +331,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llSix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -342,26 +342,29 @@
 
                 <ImageView
                     android:id="@+id/imPaidAmount"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ivWishList"
                     android:layout_height="50dp"
-                    android:layout_weight="2"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:src="@drawable/ic_paidamount" />
 
                 <ImageView
-                    android:id="@+id/ivMyWallet"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ivWishList"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_wallet" />
+                    app:layout_constraintEnd_toStartOf="@id/ivNewArr"
+                    app:layout_constraintStart_toEndOf="@+id/imPaidAmount"
+                    android:src="@drawable/ic_wishlist" />
 
                 <ImageView
                     android:id="@+id/ivNewArr"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivWishList"
                     android:src="@drawable/ic_newarrivals" />
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <LinearLayout
@@ -387,7 +390,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="My Wallet"
+                    android:text="Wish List"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
@@ -494,12 +497,12 @@
                     android:layout_marginEnd="-20dp"
                     android:src="@drawable/ic_order" />
 
-                <ImageView
+              <!--  <ImageView
                     android:id="@+id/ivWishList"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginStart="-20dp"
-                    android:src="@drawable/ic_wishlist" />
+                    android:src="@drawable/ic_wishlist" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -521,7 +524,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="65dp"
@@ -529,7 +532,7 @@
                     android:text="Wishlist"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:textStyle="bold" />-->
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

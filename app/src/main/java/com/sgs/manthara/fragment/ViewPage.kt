@@ -99,10 +99,10 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
         binding.ivSetting.setOnClickListener {
             findNavController().navigate(R.id.settingsFragment)
         }
-
+/*
         binding.ivMyWallet.setOnClickListener {
             findNavController().navigate(R.id.myWallFragment)
-        }
+        }*/
         binding.ivTotalWeight.setOnClickListener {
             findNavController().navigate(R.id.totalWeightFragment)
         }

@@ -46,7 +46,6 @@ class TotalWeightAdapter(val context: Context) :
         }
 
         init {
-
             binding.root.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -58,9 +57,7 @@ class TotalWeightAdapter(val context: Context) :
                     }
                 }
             }
-
         }
-
     }
 
     private val callback = object : DiffUtil.ItemCallback<TotalWeight>() {

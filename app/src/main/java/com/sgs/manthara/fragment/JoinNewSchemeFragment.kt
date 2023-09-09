@@ -166,7 +166,7 @@ class JoinNewSchemeFragment : Fragment() {
                     }
 
                     is Resources.Error -> {
-
+                        Log.i("TAG", "saveError:${it.message} ")
                     }
 
                     is Resources.Success -> {
@@ -197,7 +197,6 @@ class JoinNewSchemeFragment : Fragment() {
                     }
                 }
             }
-
         }
     }
 

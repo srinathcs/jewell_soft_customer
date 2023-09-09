@@ -65,19 +65,32 @@ class WishListAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        if (selectedPosition != position) {
-                            val previousSelectedPosition = selectedPosition
-                            selectedPosition = position
-                            notifyItemChanged(previousSelectedPosition)
-                            notifyItemChanged(selectedPosition)
-                            dashboardListener?.invoke(differ.currentList[selectedPosition])
-                            closeListener?.invoke(differ.currentList[position])
-                        }
-                    }catch (e: NullPointerException) {
+                        closeListener?.invoke(differ.currentList[position])
+
+                    } catch (e: NullPointerException) {
                         e.printStackTrace()
                     }
                 }
             }
+
+//            binding.ivClose.setOnClickListener {
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    try {
+//                        if (selectedPosition != position) {
+////                            val previousSelectedPosition = selectedPosition
+////                            selectedPosition = position
+////                            notifyItemChanged(previousSelectedPosition)
+////                            notifyItemChanged(selectedPosition)
+////                            dashboardListener?.invoke(differ.currentList[selectedPosition])
+////                            closeListener?.invoke(differ.currentList[position])
+//                            closeListener?.invoke(differ.currentList[position])
+//                        }
+//                    }catch (e: NullPointerException) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//            }
         }
     }
 

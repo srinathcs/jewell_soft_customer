@@ -62,11 +62,11 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         ln: String,
         lt: String,
         uid: String,
-        schType:String,
+        schType: String,
     ) = viewModelScope.launch {
         try {
             val response =
-                jewelSoftRepo.schemeType(type, cid, deviceId, ln, lt, uid,schType)
+                jewelSoftRepo.schemeType(type, cid, deviceId, ln, lt, uid, schType)
             schemeType.value = Resources.Success(response)
         } catch (exception: Exception) {
             schemeType.value = Resources.Error(exception.message.toString())
@@ -652,8 +652,9 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         }
     }
 
-    private val closeWishList = MutableStateFlow<Resources<CloseWishList>>(Resources.Loading())
-    val closeWishListFlow: StateFlow<Resources<CloseWishList>>
+    private val closeWishList =
+        MutableStateFlow<Resources<List<CloseWishList>>>(Resources.Loading())
+    val closeWishListFlow: StateFlow<Resources<List<CloseWishList>>>
         get() = closeWishList
 
     suspend fun closeWishList(
@@ -698,4 +699,27 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         }
     }
 
+
+    private val feedbacks = MutableStateFlow<Resources<List<CloseWishList>>>(Resources.Loading())
+    val feedbackFlow: StateFlow<Resources<List<CloseWishList>>>
+        get() = feedbacks
+
+    suspend fun feedback(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        lId: String,
+        feedback: String,
+    ) {
+        try {
+            val response =
+                jewelSoftRepo.feedback(type, cid, deviceId, ln, lt, uid, lId, feedback)
+            feedbacks.value = Resources.Success(response)
+        } catch (e: Exception) {
+            feedbacks.value = Resources.Error(e.message.toString())
+        }
+    }
 }

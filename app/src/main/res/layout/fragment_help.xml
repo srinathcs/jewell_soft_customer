@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/base_bg"
-    tools:context=".fragment.WishListFragment">
+    tools:context=".fragment.HelpFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvParent"
@@ -14,7 +13,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ccLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/theme">
@@ -45,23 +43,26 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="WishList"
+        android:layout_marginTop="50dp"
+        android:text="Get Help To "
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
+        android:fontFamily="@font/poppins_regular"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cvParent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvView"
+    <Button
+        android:id="@+id/btnSupport"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="50dp"
+        android:text="Get Support"
+        android:fontFamily="@font/poppins_regular"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

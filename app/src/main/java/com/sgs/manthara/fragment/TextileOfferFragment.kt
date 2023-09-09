@@ -73,7 +73,7 @@ class TextileOfferFragment : Fragment() {
                 ln,
                 lt,
                 mainPreference.getUserId().first(),
-                "4"
+                "2"
             )
         }
         textileResponse()

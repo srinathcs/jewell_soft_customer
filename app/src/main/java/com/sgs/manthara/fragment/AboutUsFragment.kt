@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.sgs.manthara.databinding.FragmentAoubtUsBinding
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.sgs.manthara.R
 
 @Suppress("DEPRECATION")
 class AboutUsFragment : Fragment() {
@@ -29,6 +31,10 @@ class AboutUsFragment : Fragment() {
         getAppVersion()
 
         checkAppUpdate()
+
+        binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
+        }
 
         return binding.root
     }

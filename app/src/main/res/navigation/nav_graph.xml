@@ -128,5 +128,24 @@
         android:id="@+id/jewelOfferPerBookFragment"
         android:name="com.sgs.manthara.fragment.JewelOfferPerBookFragment"
         android:label="JewelOfferPerBookFragment" />
+    <dialog
+        android:id="@+id/themeFragment"
+        android:name="com.sgs.manthara.fragment.ThemeFragment"
+        android:label="ThemeFragment" />
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.sgs.manthara.fragment.AboutUsFragment"
+        android:label="fragment_aoubt_us"
+        tools:layout="@layout/fragment_aoubt_us" />
+    <fragment
+        android:id="@+id/feedbackFragment"
+        android:name="com.sgs.manthara.fragment.FeedbackFragment"
+        android:label="fragment_feedback"
+        tools:layout="@layout/fragment_feedback" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.sgs.manthara.fragment.HelpFragment"
+        android:label="fragment_help"
+        tools:layout="@layout/fragment_help" />
 
 </navigation>

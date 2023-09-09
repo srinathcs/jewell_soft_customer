@@ -82,6 +82,7 @@ class AddPreBookFragment : Fragment() {
                 id
             )
         }
+        Log.i("TAG", "addPerBook:${id} ")
         addPerBookResponse()
     }
 
@@ -107,6 +108,8 @@ class AddPreBookFragment : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
                             findNavController().navigate(R.id.tickFragment)
+                        }else{
+                            Toast.makeText(requireContext(), "Already Booked", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

@@ -136,8 +136,4 @@ class DashBoardActivity : AppCompatActivity() {
     companion object {
         private const val FLEXIBLE_APP_UPDATE_REQ_CODE = 123
     }
-
-
 }
-
-

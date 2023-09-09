@@ -40,7 +40,7 @@ class PaidAmountAdapter(val context: Context) :
 
         fun setView(view: PaidAmount) {
             binding.tvDate.text = view.due_date
-            binding.tvSchemeIdValue.text = view.sch_type
+            binding.tvSchemeIdValue.text = view.chit_id
             binding.tvSchemeValue.text = view.sch_name
             binding.tvPaidAmount.text = view.amount
             binding.tvDue.text = view.due_no

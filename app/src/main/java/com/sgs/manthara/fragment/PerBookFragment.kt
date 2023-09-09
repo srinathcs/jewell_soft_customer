@@ -208,8 +208,16 @@ class PerBookFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "closeWishListRespones:${it.data} ")
-                        Toast.makeText(requireContext(), "Delete Successfully", Toast.LENGTH_SHORT)
-                            .show()
+                        for (i in it.data!!){
+                            if (i.error == false) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Delete Successfully",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
                     }
                 }
             }
@@ -234,6 +242,7 @@ class PerBookFragment : Fragment() {
                 bookPrice
             )
         }
+
         bookedResponse()
     }
 
@@ -254,6 +263,7 @@ class PerBookFragment : Fragment() {
                         Toast.makeText(requireContext(), "Booked Successfully", Toast.LENGTH_SHORT)
                             .show()
                         findNavController().navigate(R.id.tickFragment)
+                        Log.i("TAG", "booked: ${mainPreference.getLedger().first()}")
                     }
                 }
             }

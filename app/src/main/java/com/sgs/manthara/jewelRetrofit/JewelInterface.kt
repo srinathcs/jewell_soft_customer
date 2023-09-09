@@ -283,7 +283,7 @@ interface JewelInterface {
         @Field("lt") lt: String,
         @Field("uid") uid: String,
         @Field("id") id: String,
-    ): CloseWishList
+    ): List<CloseWishList>
 
     @FormUrlEncoded
     @POST("jewel_index.php")
@@ -299,4 +299,17 @@ interface JewelInterface {
         @Field("lid") lID: String,
         @Field("price") price: String,
     ): CloseWishList
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun feedback(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("lid") lID: String,
+        @Field("feedback") feedback: String,
+    ):List<CloseWishList>
 }

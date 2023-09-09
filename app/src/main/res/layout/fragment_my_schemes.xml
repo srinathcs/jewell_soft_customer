@@ -34,7 +34,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Back"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_color"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ibView"
@@ -46,7 +46,7 @@
             android:id="@+id/cvBg"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:backgroundTint="#09a08d"
+            android:backgroundTint="@color/theme"
             app:layout_constraintTop_toBottomOf="@id/cvParent">
 
             <androidx.constraintlayout.widget.ConstraintLayout

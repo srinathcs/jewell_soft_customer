@@ -277,4 +277,16 @@ class JewelRepo {
         lId: String,
         price:String
     ) = JewelSoftRetro.api.booked(type, cid, deviceId, ln, lt, uid, proId, proName, lId,price)
+
+    suspend fun feedback(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        lId: String,
+        feedback:String
+    ) = JewelSoftRetro.api.feedback(type, cid, deviceId, ln, lt, uid,lId,feedback)
+
 }

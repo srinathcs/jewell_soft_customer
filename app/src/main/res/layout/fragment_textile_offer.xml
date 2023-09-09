@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/base_bg"
     tools:context=".fragment.JewellOfferFragment">
 
     <androidx.cardview.widget.CardView
@@ -28,7 +29,7 @@
             android:layout_marginTop="12dp"
             android:fontFamily="@font/poppins_regular"
             android:text="Back"
-            android:textColor="@color/white"
+            android:textColor="@color/white_color"
             android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>

@@ -129,6 +129,7 @@ class WishListFragment : Fragment() {
             )
         }
         closeListRespones()
+        Log.i("TAG", "closeWishList: ${id}")
     }
 
     private fun closeListRespones() {
@@ -145,8 +146,17 @@ class WishListFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "closeWishListRespones:${it.data} ")
-                        Toast.makeText(requireContext(), "Delete Successfully", Toast.LENGTH_SHORT)
-                            .show()
+
+                        for (i in it.data!!){
+                            if (i.error == false) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Delete Successfully",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
                     }
                 }
             }

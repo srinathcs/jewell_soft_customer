@@ -86,7 +86,7 @@ class TextileFragment : Fragment() {
                 ln,
                 lt,
                 mainPreference.getUserId().first(),
-                "4"
+                "2"
             )
         }
         newJewellArrival()
@@ -165,7 +165,6 @@ class TextileFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "wishListRespones:${it.data}")
-
                     }
                 }
             }

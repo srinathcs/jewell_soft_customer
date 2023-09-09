@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.annotation.RequiresApi
@@ -53,6 +54,9 @@ class LoginWithOtpActivity : AppCompatActivity() {
         }
         binding.btnSubmit.setOnClickListener {
             numberSend()
+        }
+        val callback = this@LoginWithOtpActivity.onBackPressedDispatcher.addCallback(this) {
+            finish()
         }
     }
 
@@ -115,7 +119,7 @@ class LoginWithOtpActivity : AppCompatActivity() {
                                 intent =
                                     Intent(this@LoginWithOtpActivity, OtpActivity::class.java)
                                 startActivity(intent)
-
+                                Log.i("TAG", "numberSuccess:${mainPreference.getCid().first()} ")
                             }
                         } else {
                             Toast.makeText(
