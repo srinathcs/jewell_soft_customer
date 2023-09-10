@@ -91,7 +91,8 @@ class WishListFragment : Fragment() {
                         myAdapter = WishListAdapter(requireContext())
                         binding.rvView.adapter = myAdapter
                         binding.rvView.layoutManager = LinearLayoutManager(requireContext())
-                        myAdapter.differ.submitList(it.data)
+                        //myAdapter.differ.submitList(it.data)
+                        myAdapter.setList(it.data)
 
                         myAdapter.dashboardListener = {
                             val bundle = Bundle()
