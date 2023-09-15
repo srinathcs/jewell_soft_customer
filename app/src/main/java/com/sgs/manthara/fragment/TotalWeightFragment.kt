@@ -1,5 +1,6 @@
 package com.sgs.manthara.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -7,11 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sgs.manthara.R
+import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.adapter.TotalWeightAdapter
 import com.sgs.manthara.databinding.FragmentTotalWeightBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -47,8 +48,17 @@ class TotalWeightFragment : Fragment() {
 
         }
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(int)
+            requireActivity().finish()
+        }
+
         totalWeight()
         return binding.root
     }

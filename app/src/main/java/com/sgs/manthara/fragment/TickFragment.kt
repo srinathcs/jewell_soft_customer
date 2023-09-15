@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.sgs.manthara.R
 import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.databinding.FragmentTickBinding
 

@@ -8,6 +8,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -49,6 +50,10 @@ class DashBoardActivity : AppCompatActivity() {
         myReceiver = MyReceiver()
 
         getLocation()
+
+        val callback = this@DashBoardActivity.onBackPressedDispatcher.addCallback(this) {
+            finish()
+        }
 
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment

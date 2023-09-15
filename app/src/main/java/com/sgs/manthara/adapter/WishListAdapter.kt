@@ -3,8 +3,6 @@ package com.sgs.manthara.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sgs.manthara.databinding.WishlistViewBinding
@@ -14,7 +12,14 @@ class WishListAdapter(val context: Context) :
     RecyclerView.Adapter<WishListAdapter.WishListViewHolder>() {
     var dashboardListener: ((locationModel: ShowWishList) -> Unit)? = null
     var closeListener: ((locationModel: ShowWishList) -> Unit)? = null
-    private var selectedPosition = 0
+    private var dataList = arrayListOf<ShowWishList>()
+
+    fun setList(dataList: List<ShowWishList>?) {
+        dataList?.let {
+            this.dataList = ArrayList(dataList)
+            notifyItemRangeChanged(0, dataList.size)
+        }
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -26,7 +31,7 @@ class WishListAdapter(val context: Context) :
 
     override fun onBindViewHolder(holder: WishListAdapter.WishListViewHolder, position: Int) {
         try {
-            val statusModel = differ.currentList[position]
+            val statusModel = dataList[position]
             holder.setView(statusModel)
         } catch (e: NullPointerException) {
             e.printStackTrace()
@@ -34,13 +39,13 @@ class WishListAdapter(val context: Context) :
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return dataList.size
     }
 
     inner class WishListViewHolder(private var binding: WishlistViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setView(view: ShowWishList) {
-            val final = view.img1!!.replace("..", "")
+            val final = view.img1.replace("..", "")
             Glide.with(context).load(final).into(binding.ivImg)
             binding.tvModel.text = "Name : ${view.proname}"
             binding.tvPrice.text = "Price : ${view.proprice}"
@@ -53,7 +58,7 @@ class WishListAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        dashboardListener?.invoke(differ.currentList[position])
+                        dashboardListener?.invoke(dataList[position])
 
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
@@ -65,7 +70,9 @@ class WishListAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        closeListener?.invoke(differ.currentList[position])
+                        closeListener?.invoke(dataList[position])
+                        dataList.removeAt(position)
+                        notifyItemRemoved(position)
 
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
@@ -94,7 +101,7 @@ class WishListAdapter(val context: Context) :
         }
     }
 
-    private val callback = object : DiffUtil.ItemCallback<ShowWishList>() {
+    /*private val callback = object : DiffUtil.ItemCallback<ShowWishList>() {
         override fun areItemsTheSame(
             oldItem: ShowWishList,
             newItem: ShowWishList
@@ -109,5 +116,5 @@ class WishListAdapter(val context: Context) :
             return oldItem == newItem
         }
     }
-    val differ = AsyncListDiffer(this, callback)
+    val differ = AsyncListDiffer(this, callback)*/
 }

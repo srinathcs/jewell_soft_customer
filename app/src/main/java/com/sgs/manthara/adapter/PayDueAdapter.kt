@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sgs.manthara.databinding.PayDueViewBinding
-import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.PendingDue
-import kotlinx.coroutines.flow.first
 
 class PayDueAdapter(val context: Context) :
     RecyclerView.Adapter<PayDueAdapter.PayDueViewHolder>() {

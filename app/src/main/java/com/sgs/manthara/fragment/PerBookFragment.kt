@@ -1,5 +1,6 @@
 package com.sgs.manthara.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -8,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgs.manthara.R
+import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.adapter.PerBookAdapter
 import com.sgs.manthara.databinding.FragmentPerBookBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -69,7 +72,15 @@ class PerBookFragment : Fragment() {
         }
 
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(int)
+            requireActivity().finish()
         }
 
         return binding.root
@@ -78,7 +89,10 @@ class PerBookFragment : Fragment() {
     private fun wishToOrder() {
         lifecycleScope.launchWhenStarted {
             val deviceId =
-                Settings.Secure.getString(requireContext().contentResolver, Settings.Secure.ANDROID_ID)
+                Settings.Secure.getString(
+                    requireContext().contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
             jewelSoftVM.preBook(
                 "24",
                 mainPreference.getCid().first(),
@@ -154,21 +168,25 @@ class PerBookFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "perBookResponse: ${it.data}")
+                        if (it.data.isNullOrEmpty()) {
+                            binding.noData.visibility = View.VISIBLE
+                            binding.rvView.visibility = View.GONE
+                        } else {
+                            myadapter = PerBookAdapter(requireContext())
+                            binding.rvView.adapter = myadapter
+                            binding.rvView.layoutManager = LinearLayoutManager(requireContext())
+                            myadapter.setList(it.data)
 
-                        myadapter = PerBookAdapter(requireContext())
-                        binding.rvView.adapter = myadapter
-                        binding.rvView.layoutManager = LinearLayoutManager(requireContext())
-                        myadapter.differ.submitList(it.data)
-
-                        myadapter.closeListener = {
-                            id = it.id
-                            closePerBookList()
-                        }
-                        myadapter.bookedListener = {
-                            bookId = it.id
-                            bookName = it.proname
-                            bookPrice = it.proprice
-                            booked()
+                            myadapter.closeListener = {
+                                id = it.id
+                                closePerBookList()
+                            }
+                            myadapter.bookedListener = {
+                                bookId = it.id
+                                bookName = it.proname
+                                bookPrice = it.proprice
+                                booked()
+                            }
                         }
                     }
                 }
@@ -208,7 +226,7 @@ class PerBookFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "closeWishListRespones:${it.data} ")
-                        for (i in it.data!!){
+                        for (i in it.data!!) {
                             if (i.error == false) {
                                 Toast.makeText(
                                     requireContext(),

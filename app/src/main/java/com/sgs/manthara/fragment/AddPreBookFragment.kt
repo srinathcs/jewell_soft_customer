@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -34,7 +35,6 @@ class AddPreBookFragment : Fragment() {
     private lateinit var binding: FragmentAddPreBookBinding
     private lateinit var viewPager: ViewPager2
     private var id = ""
-
     private var lt = ""
     private var ln = ""
 
@@ -57,7 +57,11 @@ class AddPreBookFragment : Fragment() {
             addPerBook()
         }
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            findNavController().navigate(R.id.newArrivalsJewellFragment)
+        }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.newArrivalsJewellFragment)
         }
 
         viewItem()

@@ -21,8 +21,9 @@ class JewelRepo {
         ln: String,
         lt: String,
         uid: String,
-        otp: String
-    ) = JewelSoftRetro.api.otpRec(type, cid, deviceId, ln, lt, uid, otp)
+        otp: String,
+        lid: String
+    ) = JewelSoftRetro.api.otpRec(type, cid, deviceId, ln, lt, uid, otp, lid)
 
     suspend fun schemeType(
         type: String,
@@ -31,7 +32,17 @@ class JewelRepo {
         ln: String,
         lt: String,
         uid: String,
-        schType:String
+        schType: String
+    ) = JewelSoftRetro.api.schemeDetails(type, cid, deviceId, ln, lt, uid, schType)
+
+    suspend fun textileType(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        schType: String
     ) = JewelSoftRetro.api.schemeDetails(type, cid, deviceId, ln, lt, uid, schType)
 
     suspend fun schemeDetails(
@@ -275,8 +286,8 @@ class JewelRepo {
         proId: String,
         proName: String,
         lId: String,
-        price:String
-    ) = JewelSoftRetro.api.booked(type, cid, deviceId, ln, lt, uid, proId, proName, lId,price)
+        price: String
+    ) = JewelSoftRetro.api.booked(type, cid, deviceId, ln, lt, uid, proId, proName, lId, price)
 
     suspend fun feedback(
         type: String,
@@ -286,7 +297,16 @@ class JewelRepo {
         lt: String,
         uid: String,
         lId: String,
-        feedback:String
-    ) = JewelSoftRetro.api.feedback(type, cid, deviceId, ln, lt, uid,lId,feedback)
+        feedback: String
+    ) = JewelSoftRetro.api.feedback(type, cid, deviceId, ln, lt, uid, lId, feedback)
 
+    suspend fun viewPager(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String,
+    ) = JewelSoftRetro.api.viewPager(type, cid, deviceId, ln, lt, uid,id)
 }

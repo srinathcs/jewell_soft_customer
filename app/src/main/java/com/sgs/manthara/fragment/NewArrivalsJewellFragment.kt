@@ -61,7 +61,9 @@ class NewArrivalsJewellFragment : Fragment() {
         }
 
         binding.ivBack.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
 
         binding.tvTextiles.setOnClickListener {

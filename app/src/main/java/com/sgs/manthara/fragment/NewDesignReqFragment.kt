@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -132,8 +133,13 @@ class NewDesignReqFragment : Fragment() {
         }
 
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            findNavController().navigate(R.id.perBookFragment)
         }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.perBookFragment)
+        }
+
 
 
         return binding.root

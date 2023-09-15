@@ -1,19 +1,22 @@
 package com.sgs.manthara.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.sgs.manthara.R
+import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.adapter.TextileOfferAdapter
 import com.sgs.manthara.databinding.FragmentTextileOfferBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -52,8 +55,18 @@ class TextileOfferFragment : Fragment() {
 
         }
         binding.ivBack.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(int)
+            requireActivity().finish()
+        }
+
+        img()
         textileOffer()
         return binding.root
 
@@ -152,6 +165,54 @@ class TextileOfferFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "wishListRespones:${it.data}")
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun img() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId =
+                Settings.Secure.getString(
+                    requireContext().contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+            jewelSoftVM.viewPagers(
+                "34",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                "2"
+            )
+        }
+        viewPagerResponse()
+    }
+
+    private fun viewPagerResponse() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.viewPagerFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "viewPagerResponseError: ${it.message}")
+
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "viewPagerResponse:${it.data} ")
+
+                        for ( i in it.data!!){
+                            val final = i.img!!.replace("..", "")
+                            Glide.with(requireContext()).load(final).into(binding.ivOffer)
+                        }
+
 
                     }
                 }

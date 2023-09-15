@@ -31,8 +31,10 @@ interface JewelInterface {
         @Field("ln") ln: String,
         @Field("lt") lt: String,
         @Field("uid") ledId: String,
-        @Field("otp") otp: String
-    ): OtpReceive
+        @Field("otp") otp: String,
+        @Field("lid") lid: String,
+
+        ): OtpReceive
 
     @FormUrlEncoded
     @POST("jewel_index.php")
@@ -311,5 +313,18 @@ interface JewelInterface {
         @Field("uid") uid: String,
         @Field("lid") lID: String,
         @Field("feedback") feedback: String,
-    ):List<CloseWishList>
+    ): List<CloseWishList>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun viewPager(
+        @Field("type") type: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("id") id: String,
+
+        ): List<ViewPager>
 }

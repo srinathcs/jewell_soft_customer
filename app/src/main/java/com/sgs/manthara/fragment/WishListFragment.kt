@@ -1,5 +1,6 @@
 package com.sgs.manthara.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -7,13 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sgs.manthara.R
+import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.adapter.WishListAdapter
 import com.sgs.manthara.databinding.FragmentWishListBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -50,7 +52,15 @@ class WishListFragment : Fragment() {
         showWishList()
 
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(int)
+            requireActivity().finish()
         }
 
         return binding.root
@@ -88,25 +98,28 @@ class WishListFragment : Fragment() {
 
                     is Resources.Success -> {
                         Log.i("TAG", "wishListRespones:${it.data} ")
-                        myAdapter = WishListAdapter(requireContext())
-                        binding.rvView.adapter = myAdapter
-                        binding.rvView.layoutManager = LinearLayoutManager(requireContext())
-                        myAdapter.differ.submitList(it.data)
+                        if (it.data.isNullOrEmpty()) {
+                            binding.noData.visibility = View.VISIBLE
+                            binding.rvView.visibility = View.GONE
+                        } else {
+                            myAdapter = WishListAdapter(requireContext())
+                            binding.rvView.adapter = myAdapter
+                            binding.rvView.layoutManager = LinearLayoutManager(requireContext())
+                            //myAdapter.differ.submitList(it.data)
+                            myAdapter.setList(it.data)
+                            myAdapter.dashboardListener = {
+                                val bundle = Bundle()
+                                bundle.putString("productId", it.id)
+                                id = it.id
+                                Navigation.findNavController(requireView())
+                                    .navigate(R.id.perBookFragment, bundle)
+                            }
 
-                        myAdapter.dashboardListener = {
-                            val bundle = Bundle()
-                            bundle.putString("productId", it.id)
-                            id = it.id
-                            Navigation.findNavController(requireView())
-                                .navigate(R.id.perBookFragment, bundle)
-
+                            myAdapter.closeListener = {
+                                id = it.id
+                                closeWishList()
+                            }
                         }
-
-                        myAdapter.closeListener = {
-                            id = it.id
-                            closeWishList()
-                        }
-
                     }
                 }
             }
@@ -147,7 +160,7 @@ class WishListFragment : Fragment() {
                     is Resources.Success -> {
                         Log.i("TAG", "closeWishListRespones:${it.data} ")
 
-                        for (i in it.data!!){
+                        for (i in it.data!!) {
                             if (i.error == false) {
                                 Toast.makeText(
                                     requireContext(),

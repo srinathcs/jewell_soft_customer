@@ -52,22 +52,26 @@ class TextileFragment : Fragment() {
 
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+       /* requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (childFragmentManager.backStackEntryCount > 0) {
                 childFragmentManager.popBackStack()
             } else {
                 findNavController().navigateUp()
             }
-        }
+        }*/
 
         binding.tvJewell.setOnClickListener {
             findNavController().navigate(R.id.newArrivalsJewellFragment)
         }
         binding.ivBack.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            findNavController().navigate(R.id.newArrivalsJewellFragment)
         }
         binding.vView2.visibility = View.GONE
         binding.vView.visibility = View.VISIBLE
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.newArrivalsJewellFragment)
+        }
         textileArrivals()
         return binding.root
     }

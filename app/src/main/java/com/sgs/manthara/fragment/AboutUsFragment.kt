@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.sgs.manthara.databinding.FragmentAoubtUsBinding
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -33,6 +34,10 @@ class AboutUsFragment : Fragment() {
         checkAppUpdate()
 
         binding.ibView.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
+        }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             findNavController().navigate(R.id.settingsFragment)
         }
 

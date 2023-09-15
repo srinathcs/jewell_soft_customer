@@ -3,8 +3,6 @@ package com.sgs.manthara.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sgs.manthara.databinding.PerBookViewBinding
@@ -15,6 +13,14 @@ class PerBookAdapter(val context: Context) :
     var dashboardListener: ((locationModel: ShowPerBook) -> Unit)? = null
     var closeListener: ((locationModel: ShowPerBook) -> Unit)? = null
     var bookedListener: ((locationModel: ShowPerBook) -> Unit)? = null
+    private var dataList = arrayListOf<ShowPerBook>()
+
+    fun setList(dataList: List<ShowPerBook>?) {
+        dataList?.let {
+            this.dataList = ArrayList(dataList)
+            notifyItemRangeChanged(0, dataList.size)
+        }
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,19 +32,18 @@ class PerBookAdapter(val context: Context) :
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return dataList.size
     }
 
     override fun onBindViewHolder(holder: PerBookAdapter.PayBookViewHolder, position: Int) {
         try {
-            val statusModel = differ.currentList[position]
+            val statusModel = dataList[position]
             holder.setView(statusModel)
             holder.binding.tvItem.text = "Item : ${(position + 1).toString()}"
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
     }
-
 
     inner class PayBookViewHolder(var binding: PerBookViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -56,7 +61,7 @@ class PerBookAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        dashboardListener?.invoke(differ.currentList[position])
+                        dashboardListener?.invoke(dataList[position])
 
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
@@ -68,7 +73,9 @@ class PerBookAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        closeListener?.invoke(differ.currentList[position])
+                        closeListener?.invoke(dataList[position])
+                        dataList.removeAt(position)
+                        notifyItemRemoved(position)
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
                     }
@@ -79,18 +86,16 @@ class PerBookAdapter(val context: Context) :
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     try {
-                        bookedListener?.invoke(differ.currentList[position])
+                        bookedListener?.invoke(dataList[position])
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
                     }
                 }
             }
-
         }
-
     }
 
-    private val callback = object : DiffUtil.ItemCallback<ShowPerBook>() {
+   /* private val callback = object : DiffUtil.ItemCallback<ShowPerBook>() {
         override fun areItemsTheSame(oldItem: ShowPerBook, newItem: ShowPerBook): Boolean {
             return oldItem.id == newItem.id
         }
@@ -99,5 +104,5 @@ class PerBookAdapter(val context: Context) :
             return oldItem == newItem
         }
     }
-    val differ = AsyncListDiffer(this, callback)
+    val differ = AsyncListDiffer(this, callback) */
 }

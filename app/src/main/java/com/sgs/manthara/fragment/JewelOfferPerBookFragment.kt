@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -57,7 +58,11 @@ class JewelOfferPerBookFragment : Fragment() {
         }
 
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            findNavController().navigate(R.id.jewellOfferFragment)
+        }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.jewellOfferFragment)
         }
 
         viewItem()

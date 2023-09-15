@@ -13,6 +13,8 @@ data class ModelClass(
 data class OtpReceive(
     val error: Boolean,
     val error_msg: String,
+    val name :String,
+    val mobile:String
 
     )
 
@@ -217,3 +219,6 @@ data class CloseWishList(
     val error: Boolean,
     val message: String
 )
+data class ViewPager (
+    var img: String? = null
+        )

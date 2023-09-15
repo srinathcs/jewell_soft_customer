@@ -119,6 +119,7 @@ class LoginWithOtpActivity : AppCompatActivity() {
                                 intent =
                                     Intent(this@LoginWithOtpActivity, OtpActivity::class.java)
                                 startActivity(intent)
+
                                 Log.i("TAG", "numberSuccess:${mainPreference.getCid().first()} ")
                             }
                         } else {

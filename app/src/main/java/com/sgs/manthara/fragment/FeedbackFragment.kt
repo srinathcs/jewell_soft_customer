@@ -8,19 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sgs.manthara.R
 import com.sgs.manthara.databinding.FragmentFeedbackBinding
-import com.sgs.manthara.databinding.FragmentThemeBinding
 import com.sgs.manthara.jewelRetrofit.JewelFactory
 import com.sgs.manthara.jewelRetrofit.JewelRepo
 import com.sgs.manthara.jewelRetrofit.JewelVM
 import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 
 class FeedbackFragment : Fragment() {
@@ -55,6 +54,11 @@ class FeedbackFragment : Fragment() {
         binding.ibView.setOnClickListener {
             findNavController().navigate(R.id.settingsFragment)
         }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.settingsFragment)
+        }
+
         return binding.root
     }
 

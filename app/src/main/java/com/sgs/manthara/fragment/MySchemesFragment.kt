@@ -1,17 +1,18 @@
 package com.sgs.manthara.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sgs.manthara.R
+import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.databinding.FragmentMySchemesBinding
 import com.sgs.manthara.adapter.MySchemeAdapter
 import com.sgs.manthara.jewelRetrofit.JewelFactory
@@ -40,7 +41,7 @@ class MySchemesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMySchemesBinding.inflate(inflater, container, false)
-        mySchemeType()
+
         mainPreference = MainPreference(requireContext())
 
         FusedLocationService.latitudeFlow.observe(requireActivity()) {
@@ -50,21 +51,27 @@ class MySchemesFragment : Fragment() {
             Log.i("TAG", "onCreateLo:$ln")
 
         }
-        binding.btnJewlle.isEnabled = true
-        binding.btnTextile.isEnabled = true
+
 
         binding.btnJewlle.setOnClickListener {
-            binding.btnJewlle.isEnabled = true
-            binding.btnTextile.isEnabled = false
+            mySchemeType()
         }
 
         binding.btnTextile.setOnClickListener {
-            binding.btnTextile.isEnabled = true
-            binding.btnJewlle.isEnabled = false
+
+            myTextileType()
         }
 
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(int)
+            requireActivity().finish()
         }
 
         return binding.root
@@ -110,7 +117,6 @@ class MySchemesFragment : Fragment() {
                         )
 
                         myadapter.differ.submitList(it.data)
-                        myadapter.notifyDataSetChanged()
 
                         if (it.data!!.isNotEmpty()) {
                             myadapter.dashboardListener?.invoke(it.data[0])
@@ -125,6 +131,110 @@ class MySchemesFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun myTextileType() {
+        val deviceId =
+            Settings.Secure.getString(requireContext().contentResolver, Settings.Secure.ANDROID_ID)
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.textilesType(
+                "14",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                mainPreference.getUserId().first(),
+                "2"
+            )
+        }
+        myTextileSheme()
+    }
+
+    private fun myTextileSheme() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.textileTypeFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "mySheme121:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "productShowsSuccess:${it.data}")
+                        myadapter = MySchemeAdapter(requireContext())
+                        binding.rvView.adapter = myadapter
+                        binding.rvView.layoutManager = LinearLayoutManager(
+                            requireContext(),
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+
+                        myadapter.differ.submitList(it.data)
+
+                        if (it.data!!.isNotEmpty()) {
+                            myadapter.dashboardListener?.invoke(it.data[0])
+                            details(it.data[0].id)
+                        }
+
+                        myadapter.dashboardListener = { chitAccount ->
+                            val id = chitAccount.id
+                            textlieDetails(id)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun textlieDetails(id: String) {
+        val deviceId =
+            Settings.Secure.getString(requireContext().contentResolver, Settings.Secure.ANDROID_ID)
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.textilesDetails(
+                "15",
+                mainPreference.getCid().first(),
+                deviceId,
+                ln,
+                lt,
+                id,
+                mainPreference.getUserId().first()
+            )
+        }
+        textlieDetaileResponse()
+    }
+
+    private fun textlieDetaileResponse() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.textileDetailsFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "mySheme:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "schemeDetails:${it.data} ")
+                        try {
+                            val i = it.data!!
+                            binding.tvName.text = i!!.name
+                            binding.tvEmi.text = i.emi
+                            binding.tvFreeEmi.text = i.free_emi
+                            binding.tvPurity.text = i.purity
+                            binding.tvType.text = i.scheme_type
+                        } catch (e: NullPointerException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     private fun details(id: String) {
@@ -165,7 +275,7 @@ class MySchemesFragment : Fragment() {
                             binding.tvFreeEmi.text = i.free_emi
                             binding.tvPurity.text = i.purity
                             binding.tvType.text = i.scheme_type
-                        }catch (e:NullPointerException){
+                        } catch (e: NullPointerException) {
                             e.printStackTrace()
                         }
                     }

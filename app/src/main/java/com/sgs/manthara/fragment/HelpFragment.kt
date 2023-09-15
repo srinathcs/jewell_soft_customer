@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.sgs.manthara.R
 import com.sgs.manthara.databinding.FragmentHelpBinding
@@ -16,18 +17,23 @@ class HelpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View{
         binding = FragmentHelpBinding.inflate(inflater, container, false)
 
         binding.btnSupport.setOnClickListener {
             val dialIntent = Intent(Intent.ACTION_DIAL)
-            dialIntent.data = Uri.parse("tel:$6379420335")
+            dialIntent.data = Uri.parse("tel:$8590557855")
             startActivity(dialIntent)
         }
 
         binding.ibView.setOnClickListener {
             findNavController().navigate(R.id.settingsFragment)
         }
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.settingsFragment)
+        }
+
         return binding.root
     }
 

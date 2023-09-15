@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fef7e4"
+    android:background="@color/base_bg"
     tools:context=".activity.OtpActivity">
 
 
@@ -25,7 +25,7 @@
         android:layout_marginHorizontal="20dp"
         android:gravity="center"
         android:text="OTP Verification"
-        android:textColor="#602116"
+        android:textColor="@color/theme"
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

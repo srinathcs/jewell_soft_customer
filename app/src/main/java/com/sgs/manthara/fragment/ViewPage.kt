@@ -1,13 +1,13 @@
 package com.sgs.manthara.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -22,17 +22,16 @@ import com.sgs.manthara.jewelRetrofit.JewelVM
 import com.sgs.manthara.jewelRetrofit.MainPreference
 import com.sgs.manthara.jewelRetrofit.Resources
 import com.sgs.manthara.location.FusedLocationService
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 
 class ViewPage : Fragment(R.layout.fragment_view_page) {
 
+    private var lt = ""
+    private var ln = ""
     private lateinit var binding: FragmentViewPageBinding
     private lateinit var viewPager: ViewPager2
     private lateinit var dotsLayout: LinearLayout
     private lateinit var mainPreference: MainPreference
-    private var lt = ""
-    private var ln = ""
     private val images = listOf(R.drawable.natre, R.drawable.natural, R.drawable.images)
     private val jewelSoftVM: JewelVM by lazy {
         val repos = JewelRepo()
@@ -41,9 +40,12 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentViewPageBinding.bind(view)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentViewPageBinding.inflate(inflater,container,false)
 
         viewPager = binding.view
         dotsLayout = binding.dotsLayout
@@ -51,24 +53,12 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
         silverRate()
         diamondRate()
         platinumRate()
-
-        FusedLocationService.latitudeFlow.observe(requireActivity()) {
-            lt = it.latitude.toString()
-            ln = it.longitude.toString()
-            Log.i("TAG", "onCreateL:$lt")
-            Log.i("TAG", "onCreateLo:$ln")
-
-        }
-
-        val adapter = ViewPagerAdapter(images)
-        viewPager.adapter = adapter
+        viewPager()
         mainPreference = MainPreference(requireContext())
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                updateDots(position)
-            }
-        })
+
+
+
+        location()
 
         createDots()
 
@@ -99,10 +89,10 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
         binding.ivSetting.setOnClickListener {
             findNavController().navigate(R.id.settingsFragment)
         }
-/*
-        binding.ivMyWallet.setOnClickListener {
-            findNavController().navigate(R.id.myWallFragment)
-        }*/
+        /*
+                binding.ivMyWallet.setOnClickListener {
+                    findNavController().navigate(R.id.myWallFragment)
+                }*/
         binding.ivTotalWeight.setOnClickListener {
             findNavController().navigate(R.id.totalWeightFragment)
         }
@@ -121,7 +111,16 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
         binding.ivTextileOffer.setOnClickListener {
             findNavController().navigate(R.id.textileOfferFragment)
         }
+    return binding.root
+    }
 
+    private fun location(){
+        FusedLocationService.latitudeFlow.observe(requireActivity()) {
+            lt = it.latitude.toString()
+            ln = it.longitude.toString()
+            Log.i("TAG", "viewPagerL:$lt")
+            Log.i("TAG", "viewPagerLo:$ln")
+        }
     }
 
     private fun createDots() {
@@ -299,6 +298,57 @@ class ViewPage : Fragment(R.layout.fragment_view_page) {
                         val i = it.data
                         binding.tvPlatinum.text = i!!.rate
                         Log.i("TAG", "goldToday:${it.data} ")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun viewPager() {
+        lifecycleScope.launchWhenStarted {
+            val deviceId =
+                Settings.Secure.getString(
+                    requireContext().contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+            jewelSoftVM.viewPagers(
+                "34",
+                mainPreference.getCid().first(),
+                deviceId,
+                "5555",
+                "5555",
+                mainPreference.getUserId().first(),
+                "1"
+            )
+        }
+        viewPagerResponse()
+    }
+
+    private fun viewPagerResponse() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.viewPagerFlow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "viewPagerResponseError: ${it.message}")
+
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "viewPagerResponse: ${it.data}")
+
+                        val adapter = ViewPagerAdapter(requireContext(),it.data!!)
+                        viewPager.adapter = adapter
+                        mainPreference = MainPreference(requireContext())
+                        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                            override fun onPageSelected(position: Int) {
+                                super.onPageSelected(position)
+                                updateDots(position)
+                            }
+                        })
                     }
                 }
             }

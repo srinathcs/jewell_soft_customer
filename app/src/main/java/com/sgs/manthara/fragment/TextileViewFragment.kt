@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -59,6 +60,9 @@ class TextileViewFragment : Fragment() {
         }
         binding.ibView.setOnClickListener {
             findNavController().navigate(R.id.viewPage)
+        }
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+           findNavController().navigate(R.id.newArrivalsJewellFragment)
         }
         return binding.root
     }

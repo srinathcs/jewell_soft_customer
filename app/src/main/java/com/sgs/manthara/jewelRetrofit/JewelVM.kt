@@ -41,10 +41,11 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
         ln: String,
         lt: String,
         uid: String,
-        otp: String
+        otp: String,
+        lid: String
     ) = viewModelScope.launch {
         try {
-            val response = jewelSoftRepo.otpRec(type, cid, deviceId, ln, lt, uid, otp)
+            val response = jewelSoftRepo.otpRec(type, cid, deviceId, ln, lt, uid, otp, lid)
             otpRec.value = Resources.Success(response)
         } catch (exception: Exception) {
             otpRec.value = Resources.Error(exception.message.toString())
@@ -70,6 +71,50 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
             schemeType.value = Resources.Success(response)
         } catch (exception: Exception) {
             schemeType.value = Resources.Error(exception.message.toString())
+        }
+    }
+
+    private val textileDetails = MutableStateFlow<Resources<SchemeType>>(Resources.Loading())
+    val textileDetailsFlow: StateFlow<Resources<SchemeType>>
+        get() = textileDetails
+
+    suspend fun textilesDetails(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        id: String,
+        uid: String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.schemeDetails(type, cid, deviceId, ln, lt, id, uid)
+            textileDetails.value = Resources.Success(response)
+        } catch (e: Exception) {
+            textileDetails.value = Resources.Error(e.message.toString())
+        }
+    }
+
+
+    private val textileType = MutableStateFlow<Resources<List<SchemeDetails>>>(Resources.Loading())
+    val textileTypeFlow: StateFlow<Resources<List<SchemeDetails>>>
+        get() = textileType
+
+    suspend fun textilesType(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        schType: String,
+    ) = viewModelScope.launch {
+        try {
+            val response =
+                jewelSoftRepo.textileType(type, cid, deviceId, ln, lt, uid, schType)
+            textileType.value = Resources.Success(response)
+        } catch (exception: Exception) {
+            textileType.value = Resources.Error(exception.message.toString())
         }
     }
 
@@ -720,6 +765,30 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
             feedbacks.value = Resources.Success(response)
         } catch (e: Exception) {
             feedbacks.value = Resources.Error(e.message.toString())
+        }
+    }
+
+    private val viewPager =
+        MutableStateFlow<Resources<List<ViewPager>>>(Resources.Loading())
+    val viewPagerFlow: StateFlow<Resources<List<ViewPager>>>
+        get() = viewPager
+
+    suspend fun viewPagers(
+        type: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        id: String,
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.viewPager(
+                type, cid, deviceId, ln, lt, uid,id
+            )
+            viewPager.value = Resources.Success(response)
+        } catch (e: Exception) {
+            viewPager.value = Resources.Error(e.message.toString())
         }
     }
 }

@@ -122,7 +122,6 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
     }
 
 
-
     private fun allOtpFieldsFilled(): Boolean {
         val otpFields = listOf(
             binding.et1, binding.et2, binding.et3,
@@ -214,7 +213,8 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
                 "55",
                 "2",
                 mainPreference.getUserId().first(),
-                otp
+                otp,
+                mainPreference.getLedger().first()
             )
         }
         verify()
@@ -317,9 +317,10 @@ class OtpActivity : AppCompatActivity(R.layout.activity_otp) {
                             mainPreference.saveLogin(true)
                             val role = "1"
                             mainPreference.saveRoleId(role)
-
+                            mainPreference.saveUserName(it.data.name)
                             intent = Intent(this@OtpActivity, DashBoardActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }
                     }
 

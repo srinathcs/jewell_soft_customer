@@ -35,12 +35,6 @@
         tools:layout="@layout/fragment_paid_amount" />
 
     <fragment
-        android:id="@+id/firstFragment"
-        android:name="com.sgs.manthara.fragment.FirstFragment"
-        android:label="fragment_first"
-        tools:layout="@layout/fragment_first" />
-
-    <fragment
         android:id="@+id/newArrivalsJewellFragment"
         android:name="com.sgs.manthara.fragment.NewArrivalsJewellFragment"
         android:label="fragment_new_arrivals_jewell"
@@ -55,11 +49,6 @@
         android:id="@+id/settingsFragment"
         android:name="com.sgs.manthara.fragment.SettingsFragment"
         android:label="SettingsFragment" />
-
-    <fragment
-        android:id="@+id/myWallFragment"
-        android:name="com.sgs.manthara.fragment.MyWallFragment"
-        android:label="MyWallFragment" />
 
     <fragment
         android:id="@+id/addPreBookFragment"
@@ -113,7 +102,6 @@
         android:id="@+id/textileViewFragment"
         android:name="com.sgs.manthara.fragment.TextileViewFragment"
         android:label="TextileViewFragment" />
-
 
     <dialog
         android:id="@+id/logout"

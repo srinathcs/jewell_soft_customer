@@ -16,9 +16,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.sgs.manthara.R
 import com.sgs.manthara.activity.DashBoardActivity
 import com.sgs.manthara.databinding.FragmentJoinNewSchemeBinding
@@ -67,12 +67,20 @@ class JoinNewSchemeFragment : Fragment() {
 
         }
 
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val int = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(int)
+            requireActivity().finish()
+        }
+
         binding.atvSDate.setOnClickListener {
             showAnniversaryPickerDialog()
         }
 
         binding.ibView.setOnClickListener {
-            findNavController().navigate(R.id.viewPage)
+            val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
 
         val currentDate = Calendar.getInstance()
@@ -192,7 +200,6 @@ class JoinNewSchemeFragment : Fragment() {
 
                         val int = Intent(requireActivity(), DashBoardActivity::class.java)
                         startActivity(int)
-                        requireActivity().finish()
 
                     }
                 }
