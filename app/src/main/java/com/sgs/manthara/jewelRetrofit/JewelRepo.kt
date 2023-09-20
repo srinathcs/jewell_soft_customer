@@ -309,4 +309,15 @@ class JewelRepo {
         uid: String,
         id: String,
     ) = JewelSoftRetro.api.viewPager(type, cid, deviceId, ln, lt, uid,id)
+
+    suspend fun dropDown(
+        type: String,
+        subType: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        name: String,
+    ) = JewelSoftRetro.api.dropDown(type, subType,cid, deviceId, ln, lt, uid,name)
 }

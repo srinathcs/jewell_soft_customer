@@ -327,4 +327,18 @@ interface JewelInterface {
         @Field("id") id: String,
 
         ): List<ViewPager>
+
+    @FormUrlEncoded
+    @POST("jewel_index.php")
+    suspend fun dropDown(
+        @Field("type") type: String,
+        @Field("sub_type") subType: String,
+        @Field("cid") cid: String,
+        @Field("device_id") deviceId: String,
+        @Field("ln") ln: String,
+        @Field("lt") lt: String,
+        @Field("uid") uid: String,
+        @Field("name") name: String,
+    ): List<DropDown>
+
 }

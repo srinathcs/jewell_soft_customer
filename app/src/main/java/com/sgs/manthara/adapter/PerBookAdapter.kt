@@ -17,6 +17,7 @@ class PerBookAdapter(val context: Context) :
 
     fun setList(dataList: List<ShowPerBook>?) {
         dataList?.let {
+            this.dataList.clear()
             this.dataList = ArrayList(dataList)
             notifyItemRangeChanged(0, dataList.size)
         }

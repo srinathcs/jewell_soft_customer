@@ -13,10 +13,17 @@ data class ModelClass(
 data class OtpReceive(
     val error: Boolean,
     val error_msg: String,
-    val name :String,
-    val mobile:String
+    val name: String,
+    val mobile: String
 
-    )
+)
+
+data class DropDown(
+    val name: String,
+    val id: String,
+    val lname: String,
+    val mobile: String
+)
 
 data class Save(
     val message: String
@@ -219,6 +226,7 @@ data class CloseWishList(
     val error: Boolean,
     val message: String
 )
-data class ViewPager (
+
+data class ViewPager(
     var img: String? = null
-        )
+)

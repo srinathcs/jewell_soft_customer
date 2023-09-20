@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.sgs.manthara.R
@@ -49,7 +50,9 @@ class JoinNewSchemeFragment : Fragment() {
     private var scheme = ""
     private var schemeName = ""
     private var nameList: MutableList<String> = mutableListOf()
+    private var nameListdrop: MutableList<String> = mutableListOf()
     private var idList: MutableList<String> = mutableListOf()
+    private var idListdrop: MutableList<String> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -100,6 +103,7 @@ class JoinNewSchemeFragment : Fragment() {
             }
         })
         schemeTypeAuto()
+        dropDown()
         binding.btnSubmit.setOnClickListener {
             saveScheme()
         }
@@ -318,6 +322,80 @@ class JoinNewSchemeFragment : Fragment() {
                             scheme = idList[i]
                             schemeName = nameList[i]
                             schemeDetails(scheme)
+
+                            Log.i("TAG", "forsalessss:$id")
+                        }
+                    } catch (e: IndexOutOfBoundsException) {
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+    }
+
+    private fun dropDown() {
+        val deviceId =
+            Settings.Secure.getString(
+                requireContext().contentResolver,
+                Settings.Secure.ANDROID_ID
+            )
+        binding.atvName.doOnTextChanged { text, _, _, _ ->
+            lifecycleScope.launchWhenStarted {
+                jewelSoftVM.dropDown(
+                    "11",
+                    "1",
+                    mainPreference.getCid().first(),
+                    deviceId,
+                    ln,
+                    lt,
+                    mainPreference.getUserId().first(),
+                    text.toString()
+                )
+                Log.i("TAG", "cusName:${text.toString()}")
+            }
+            dropDownResponse()
+        }
+    }
+
+    private fun dropDownResponse() {
+        lifecycleScope.launchWhenStarted {
+            jewelSoftVM.dropdown_Flow.collect {
+                when (it) {
+                    is Resources.Loading -> {
+
+                    }
+
+                    is Resources.Error -> {
+                        Log.i("TAG", "mySheme11:${it.message} ")
+                    }
+
+                    is Resources.Success -> {
+                        Log.i("TAG", "name: ${it.data}")
+                        try {
+                            nameListdrop.clear()
+                            idListdrop.clear()
+                            for (i in it.data!!) {
+                                nameListdrop.add(i.name)
+                                idListdrop.add(i.id)
+                            }
+                            val arrayAdapter = ArrayAdapter(
+                                requireContext(),
+                                R.layout.complete_text_view, nameListdrop
+                            )
+                            binding.atvName.setAdapter(arrayAdapter)
+                            binding.atvName.threshold = 1
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }
+        }
+
+        binding.atvName.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, _ ->
+                for (i in 0 until nameList.size) {
+                    try {
+                        if (binding.atvName.text.toString() == nameListdrop[i]) {
 
                             Log.i("TAG", "forsalessss:$id")
                         }

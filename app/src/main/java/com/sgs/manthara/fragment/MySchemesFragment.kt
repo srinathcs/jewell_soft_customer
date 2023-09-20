@@ -54,11 +54,14 @@ class MySchemesFragment : Fragment() {
 
 
         binding.btnJewlle.setOnClickListener {
+            binding.clLayout.visibility = View.VISIBLE
+            binding.llLayouts.visibility = View.GONE
             mySchemeType()
         }
 
         binding.btnTextile.setOnClickListener {
-
+            binding.clLayout.visibility = View.VISIBLE
+            binding.llLayouts.visibility = View.GONE
             myTextileType()
         }
 

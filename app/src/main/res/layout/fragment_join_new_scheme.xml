@@ -95,7 +95,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilScheme"
-            style="@style/MyTextFieldStyle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -283,7 +283,6 @@
                 android:textSize="16sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <Button
             android:id="@+id/btnSubmit"

@@ -16,8 +16,10 @@ class WishListAdapter(val context: Context) :
 
     fun setList(dataList: List<ShowWishList>?) {
         dataList?.let {
+            this.dataList.clear()
             this.dataList = ArrayList(dataList)
             notifyItemRangeChanged(0, dataList.size)
+            notifyDataSetChanged()
         }
     }
     override fun onCreateViewHolder(
@@ -79,6 +81,7 @@ class WishListAdapter(val context: Context) :
                     }
                 }
             }
+
 
 //            binding.ivClose.setOnClickListener {
 //                val position = adapterPosition

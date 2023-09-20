@@ -791,4 +791,29 @@ class JewelVM(private val jewelSoftRepo: JewelRepo) : ViewModel() {
             viewPager.value = Resources.Error(e.message.toString())
         }
     }
+
+    private val dropdown_ =
+        MutableStateFlow<Resources<List<DropDown>>>(Resources.Loading())
+    val dropdown_Flow: StateFlow<Resources<List<DropDown>>>
+        get() = dropdown_
+
+    suspend fun dropDown(
+        type: String,
+        subType: String,
+        cid: String,
+        deviceId: String,
+        ln: String,
+        lt: String,
+        uid: String,
+        name: String
+    ) = viewModelScope.launch {
+        try {
+            val response = jewelSoftRepo.dropDown(
+                type,subType, cid, deviceId, ln, lt, uid,name
+            )
+            dropdown_.value = Resources.Success(response)
+        } catch (e: Exception) {
+            dropdown_.value = Resources.Error(e.message.toString())
+        }
+    }
 }
